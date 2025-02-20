@@ -1,6 +1,8 @@
 ### MS VS-Code Himt
 # 1. ターミナルを開く　　ctrl + @
 # 2.　GitHUB commitの方法
+# 3. module のSub-folder を mylib に変更。2025-02-21
+# 4. main へ subscribe する。
 
 """
 Font List Sample
@@ -54,8 +56,8 @@ ref: get_clipboard(), set_clipboard(), screenshot(),
 import TkEasyGUI as eg
 import json, os, sys, datetime
 import pytz
-from lib.readWriteXL import openXl, getRow, setRow
-from lib.db_access import query, trans2
+from mylib.readWriteXL import openXl, getRow, setRow
+from mylib.db_access import query, trans2
 
 
 script_path = os.path.abspath(sys.argv[0])
