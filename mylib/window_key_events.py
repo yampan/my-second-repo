@@ -8,7 +8,8 @@ layout = [
         eg.Frame(
             "",
             [
-                [eg.Image(size=(300, 300), filename="a.jpg")],
+                #[eg.Image(size=(300, 300), filename="a.jpg")],
+                [eg.Image(size=(50, 50), filename="a.jpg")],
             ],
         ),
         eg.Frame(
