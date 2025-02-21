@@ -61,6 +61,8 @@ from mylib.db_access import query, trans2
 from mylib.logger import (FMT, FMT2, createLogger, 
             clearLogfile, log_init, get_file_info)
 import glob
+from mylib.version_info import help_window
+
 
 # logger start
 os.makedirs("./log", exist_ok=True)
@@ -84,6 +86,9 @@ script_name = os.path.basename(script_path)
 logger.debug(f"=== Start: {script_name} ===")
 logger.debug(f"スクリプトのパス: {script_path}")
 logger.debug(f"スクリプト名: {script_name}")
+
+#win = help_window(script_name)
+#win.close()
 
 fn_conf = "JROD_config.json"
 with open(fn_conf, "r") as f:
@@ -155,7 +160,7 @@ def setByMap(j_map, ws, PTR, window, deb=0):
         cmd = f"{v} = col[{ptr}]"
         if deb: print(f"setByMap:  {v}: ptr:{ptr}, nam:{nam},  cmd= '{cmd}'")
         exec(cmd,locals(),globals())
-    print(f"setByMap: #121 id={id}, comp={comp}, status={status}," )
+    logger.debug(f"setByMap: #121 id={id}, comp={comp}, status={status}," )
     # redraw
     window["-id-"].update(f"ID: {id:10}, ")
     window["-id2-"].update(f" kanri: {kannri_id:10}, name: {name:15}")
@@ -170,7 +175,7 @@ def setByMap(j_map, ws, PTR, window, deb=0):
     window["-info-"].update(f"  {JST()}")
     # DB read
     final_d2, status2 = DBread(kannri_id)
-    print(f"#setByMap: final_d2={final_d2}, status2={status2}")
+    logger.debug(f"#setByMap: final_d2={final_d2}, status2={status2}")
     window["-final_d2-"].update(f' DB: 　{final_d2}     生死の状況：{status2}')
     return
 
@@ -186,10 +191,11 @@ def returnByMap(j_map, ws, PTR, deb=0):
         (ptr, nam) = j_map[v] 
         #print(f"{v}: ptr:{ptr}, nam:{nam}")
         cmd = f"col[{ptr}] = {v}"
-        if deb: print(f"returnByMap:  {v}: ptr:{ptr}, nam:{nam},  cmd= [{cmd}]")
+        if deb: 
+            logger.debug(f"returnByMap:  {v}: ptr:{ptr}, nam:{nam},  cmd= [{cmd}]")
         exec(cmd,locals(),globals())
     # -- "comp":(85,'放射線治療完遂度')   'status':(87,'生死の状況')
-    print(f"returnByMap: #150 comp={comp}, col[85]={col[85]}, status={status}, col[87]={col[87]}")
+    logger.debug(f"returnByMap: #150 comp={comp}, col[85]={col[85]}, status={status}, col[87]={col[87]}")
     setRow(ws, PTR, col)
     return
 
@@ -206,8 +212,10 @@ def DBread(id):
     """
     sql = '''select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
             from admin where pat_id1 = ''' + f"'{id}' ;" 
+    logger.debug(f'sql = {sql}')
     #rows = query(sql)
     rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
+    logger.debug(f'rows = {rows}')
     final_d2 = rows[0][1]
     if type(final_d2) is not str:
         final_d2 = f'{final_d2}'[:10]
@@ -233,12 +241,14 @@ def DBwrite(id, dt, st):
             status2 = int(k)
     if status2 is None:
         print(f'status ERROR: {st} is not found.')
+        logger.debug(f'status ERROR: {st} is not found.')
         return
     values = (status2, dt, id)
     sql = '''update admin set user_defined_pro_id_3 = ? , 
                 user_defined_dttm_1 = ?  
                 where pat_id1 = ? ;'''
-    print(f'#DBwrite: sql: {sql},\n  values: {values}')
+    #print(f'#DBwrite: sql: {sql},\n  values: {values}')
+    logger.debug(f'#DBwrite: sql: {sql},\n  values: {values}')
     #trans2(sql, values)
     return 
 
@@ -354,22 +364,23 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
             window["-font-"].update(comp)
         if event in ["fix", "fix2"]:
             final_d = values["-final_d-"]
-            print("comp=", comp, "status=", status, "final_d=", final_d)
+            logger.debug("comp=", comp, "status=", status, "final_d=", final_d)
             comp = values["-font-"]
             status = values["-status-"]
-            print("comp=", comp, "status=", status)
+            logger.debug("comp=", comp, "status=", status, "final_d=", final_d)
             window["-comp-"].update(f"{low:8} < {days} < {high:8.2f},    data:{comp}", key="-comp-")
             window["-status-"].update(f"{status}")
             window["-status0-"].update(f"  0生死の状況: {status} ==> ")
+            if event == 'fix': window["-body-"].print(event, end=", ", text_color="purple")
             returnByMap(j_map, ws, PTR)
             if event == 'fix2':
                 DBwrite(kannri_id, final_d, status)
-                window["-body-"].print(event, text_color="purple")
+                window["-body-"].print(event, end=", ", text_color="purple")
         if event in ["-ptr-", "< prev", "next >", "set"]:
             if event == "< prev" and PTR >2: PTR -= 1
             if event == "next >" and PTR < ws.max_row: PTR += 1
             if event == "set": PTR = int(values["-ptr-"])
-            print("PTR=", PTR)
+            #print("PTR=", PTR)
             window["-ptr-"].update(f"{PTR}")
             setByMap(j_map, ws, PTR, window)
         if event == "paste":
@@ -377,12 +388,14 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
             eg.print("Copied to clipboard:\n" + f"[{id}]" )
         if event == "clear":
             window["-body-"].update("=== cleared. ===")
+        if event == "HELP":
+            win = help_window(script_name)
+            win.close()
+
         # LOG
-        #text = window["-body-"].get_text()+"\n"
-        #print("text=", text)
         text = f"#event:{event}, PTR:{PTR}, comp:{comp}, final_d:{final_d}, status:{status}"
         
-        window["-body-"].print(text, text_color="darkgreen", background_color="lightpink")
+        window["-body-"].print(text, text_color="darkgreen", ) # background_color="lightpink"
         #window["-body-"].update(text)
 # ---
 print("END.")

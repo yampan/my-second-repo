@@ -1,13 +1,18 @@
-2025-02-21 11:03:16.322 [DEBUG  ] log|log_init:99   debug message
-2025-02-21 11:03:16.322 [INFO   ] log|log_init:100  info message
-2025-02-21 11:03:16.322 [WARNING] log|log_init:101  warn message
-2025-02-21 11:03:16.322 [ERROR  ] log|log_init:102  error message
-2025-02-21 11:03:16.322 [CRITICAL] log|log_init:103  critical message
-2025-02-21 11:03:16.336 [DEBUG  ] log|<module>:84   === Start: JROD-gui2-ARC.py ===
-2025-02-21 11:03:16.336 [DEBUG  ] log|<module>:85   スクリプトのパス: c:\Users\yampa\Documents\GitHub\my-second-repo\JROD-gui2-ARC.py
-2025-02-21 11:03:16.336 [DEBUG  ] log|<module>:86   スクリプト名: JROD-gui2-ARC.py
-2025-02-21 11:03:16.413 [DEBUG  ] log|<module>:312  get_center_location= (10, 10)
-2025-02-21 11:03:16.413 [DEBUG  ] log|<module>:313  get_screen_size= (2048, 1152)
-2025-02-21 11:03:16.414 [DEBUG  ] log|<module>:315  set_alpha_channel= 0.98
-2025-02-21 11:03:16.414 [DEBUG  ] log|<module>:318  set_size= (700, 850)
-2025-02-21 11:03:16.414 [DEBUG  ] log|<module>:320  get_size= (1, 1)
+2025-02-21 12:16:21.876 [DEBUG  ] log|log_init:99   debug message
+2025-02-21 12:16:21.876 [INFO   ] log|log_init:100  info message
+2025-02-21 12:16:21.876 [WARNING] log|log_init:101  warn message
+2025-02-21 12:16:21.876 [ERROR  ] log|log_init:102  error message
+2025-02-21 12:16:21.876 [CRITICAL] log|log_init:103  critical message
+2025-02-21 12:16:21.877 [DEBUG  ] log|<module>:86   === Start: JROD-gui2-ARC.py ===
+2025-02-21 12:16:21.877 [DEBUG  ] log|<module>:87   スクリプトのパス: c:\Users\yampa\Documents\GitHub\my-second-repo\JROD-gui2-ARC.py
+2025-02-21 12:16:21.877 [DEBUG  ] log|<module>:88   スクリプト名: JROD-gui2-ARC.py
+2025-02-21 12:16:21.951 [DEBUG  ] log|<module>:322  get_center_location= (10, 10)
+2025-02-21 12:16:21.954 [DEBUG  ] log|<module>:323  get_screen_size= (2048, 1152)
+2025-02-21 12:16:21.954 [DEBUG  ] log|<module>:325  set_alpha_channel= 0.98
+2025-02-21 12:16:21.954 [DEBUG  ] log|<module>:328  set_size= (700, 850)
+2025-02-21 12:16:21.954 [DEBUG  ] log|<module>:330  get_size= (1, 1)
+2025-02-21 12:16:21.954 [DEBUG  ] log|setByMap:163  setByMap: #121 id=0000041750, comp=予定治療完遂, status=非担癌生存,
+2025-02-21 12:16:21.956 [DEBUG  ] log|DBread:215  sql = select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
+            from admin where pat_id1 = '16532' ;
+2025-02-21 12:16:21.956 [DEBUG  ] log|DBread:218  rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
+2025-02-21 12:16:21.956 [DEBUG  ] log|setByMap:178  #setByMap: final_d2=2023-04-29, status2=4.原病死
