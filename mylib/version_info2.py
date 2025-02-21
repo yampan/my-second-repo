@@ -27,9 +27,13 @@ def help_window(script_name="test"):
                             eg.Button("Web"),  ],
                     ],  ), ],
                 ]
-    layout2 = [[eg.Image(size=(99, 100), filename="Leaf2.png")],]
+    #layout2 = [[eg.Image(size=(99, 100), filename="Leaf2.png")],]
+    layout2 = [[eg.Frame("", layout = [
+                    [eg.Image(size=(99, 100), filename="Leaf2.png")],])],
+              ]      
     col1 = eg.Column(layout1, key="col1", expand_x=True)
     col2 = eg.Column(layout2, key="col2")
+    
   
     layout = [ [col1, col2],
         #[main_lay,],

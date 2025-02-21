@@ -4,6 +4,8 @@
 # 3. module のSub-folder を mylib に変更。2025-02-21
 # 4. main へ subscribe する。
 # 5. Branch logfunc を追加する。
+# 6. acubic-PE d:\python_test\TkEasyGUI\my-second-repo\
+#    PRO4: document\GITHUB\
 """
 Font List Sample
 
@@ -61,8 +63,8 @@ from mylib.db_access import query, trans2
 from mylib.logger import (FMT, FMT2, createLogger, 
             clearLogfile, log_init, get_file_info)
 import glob
-from mylib.version_info import help_window
-
+from mylib.version_info2 import help_window
+from mylib.daycheck import dayCheckM, pred
 
 # logger start
 os.makedirs("./log", exist_ok=True)
@@ -141,8 +143,15 @@ j_map = {"id":(112,'ID'), 'kannri_id':(1,'院内管理コード') , 'name':(114,
          'frac':(46,'外部照射日数'), 'days':(46,'外部照射日数'), 'perday':(47, '外部照射分割回数'),
          'comp':(85,'放射線治療完遂度'), 'status':(87,'生死の状況'), 'final_d': (88,'最終確認日') }
 
-# excel open
+# excel open  wb:workbook, ws:worksheet, title:dict {}
 wb, ws, title = openXl(FN_EXCEL, SHEET_NAME)
+logger.debug(f"title = {title}")
+
+# title: dict ==> title2: list
+title2 = ['index']
+for i in range(1,115):
+    title2.append(title[i])
+
 
 
 # PTRにより、データの読み出し
@@ -152,8 +161,10 @@ def setByMap(j_map, ws, PTR, window, deb=0):
     global final_d, status
 
     col = getRow(ws, PTR)
+    logger.debug(f"col = {col}")
     if deb: print("col =", col)
-    #    print(i, col[i])
+    
+    #    Global 変数へ展開
     for v in j_map.keys():
         (ptr, nam) = j_map[v] 
         #print(f"{v}: ptr:{ptr}, nam:{nam}")
@@ -161,13 +172,18 @@ def setByMap(j_map, ws, PTR, window, deb=0):
         if deb: print(f"setByMap:  {v}: ptr:{ptr}, nam:{nam},  cmd= '{cmd}'")
         exec(cmd,locals(),globals())
     logger.debug(f"setByMap: #121 id={id}, comp={comp}, status={status}," )
+    
+    # dayCheckM()
+    NG, mes, (low, period, high) = dayCheckM(col, PTR, title2, sys.stdout)
+    comp_pre = pred(col, low, period, high, '85:放射線治療完遂度')
+    
     # redraw
     window["-id-"].update(f"ID: {id:10}, ")
     window["-id2-"].update(f" kanri: {kannri_id:10}, name: {name:15}")
     window["-dis-"].update(f"{disease:15},({dis_icdo:5}) / {pathology},({path_icdo})")
     window["-date-"].update(f"開始日:{st_date}, 終了日:{en_date}  Dose:{dose}, Frac:{frac}, days:{days},")
-    window["-comp-"].update(f"{low:8} < {days} < {high:8.2f},     元の完遂度: {comp}")
-    window["-comp2-"].update(f"      完遂予測:{comp_pre} ----->  ")
+    window["-comp-"].update(f"{low:8} < {days:3} < {high:8.1f},     元の完遂度: {comp}")
+    window["-comp2-"].update(f"　完遂予測:{comp_pre} ----->  ")
     window["-ptr-"].update(f"{PTR}")
     window["-final_d-"].update(f"{final_d}")
     window["-status0-"].update(f"  生死の状況: {status:6} ==> ")
@@ -395,7 +411,7 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
         # LOG
         text = f"#event:{event}, PTR:{PTR}, comp:{comp}, final_d:{final_d}, status:{status}"
         
-        window["-body-"].print(text, text_color="darkgreen", ) # background_color="lightpink"
+        window["-body-"].print(text, text_color="darkblue", ) # background_color="lightpink"
         #window["-body-"].update(text)
 # ---
 print("END.")
