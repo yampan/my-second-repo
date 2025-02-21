@@ -1,0 +1,13 @@
+2025-02-21 11:03:16.322 [DEBUG  ] log|log_init:99   debug message
+2025-02-21 11:03:16.322 [INFO   ] log|log_init:100  info message
+2025-02-21 11:03:16.322 [WARNING] log|log_init:101  warn message
+2025-02-21 11:03:16.322 [ERROR  ] log|log_init:102  error message
+2025-02-21 11:03:16.322 [CRITICAL] log|log_init:103  critical message
+2025-02-21 11:03:16.336 [DEBUG  ] log|<module>:84   === Start: JROD-gui2-ARC.py ===
+2025-02-21 11:03:16.336 [DEBUG  ] log|<module>:85   スクリプトのパス: c:\Users\yampa\Documents\GitHub\my-second-repo\JROD-gui2-ARC.py
+2025-02-21 11:03:16.336 [DEBUG  ] log|<module>:86   スクリプト名: JROD-gui2-ARC.py
+2025-02-21 11:03:16.413 [DEBUG  ] log|<module>:312  get_center_location= (10, 10)
+2025-02-21 11:03:16.413 [DEBUG  ] log|<module>:313  get_screen_size= (2048, 1152)
+2025-02-21 11:03:16.414 [DEBUG  ] log|<module>:315  set_alpha_channel= 0.98
+2025-02-21 11:03:16.414 [DEBUG  ] log|<module>:318  set_size= (700, 850)
+2025-02-21 11:03:16.414 [DEBUG  ] log|<module>:320  get_size= (1, 1)

@@ -1,9 +1,9 @@
 ### MS VS-Code Himt
-# 1. ターミナルを開く　　ctrl + @
+# 1. ターミナルを開く　　ctrl + @, clear: cls,  Ctrl+Shift+P
 # 2.　GitHUB commitの方法
 # 3. module のSub-folder を mylib に変更。2025-02-21
 # 4. main へ subscribe する。
-
+# 5. Branch logfunc を追加する。
 """
 Font List Sample
 
@@ -58,12 +58,32 @@ import json, os, sys, datetime
 import pytz
 from mylib.readWriteXL import openXl, getRow, setRow
 from mylib.db_access import query, trans2
+from mylib.logger import (FMT, FMT2, createLogger, 
+            clearLogfile, log_init, get_file_info)
+import glob
 
+# logger start
+os.makedirs("./log", exist_ok=True)
+LOG_FN = "LOG_JROD.TXT"
+'''
+clearLogfile(LOG_FN)
+logger = createLogger("log", LOG_FN, format=FMT)
+logger.debug('debug message')
+logger.info('info message')
+logger.warning('warn message')
+logger.error('error message')
+logger.critical('critical message')
+'''
+logger = log_init(LOG_FN)
+
+# ---
+get_file_info(".", "LOG*", show=1)
 
 script_path = os.path.abspath(sys.argv[0])
 script_name = os.path.basename(script_path)
-print(f"スクリプトのパス: {script_path}")
-print(f"スクリプト名: {script_name}")
+logger.debug(f"=== Start: {script_name} ===")
+logger.debug(f"スクリプトのパス: {script_path}")
+logger.debug(f"スクリプト名: {script_name}")
 
 fn_conf = "JROD_config.json"
 with open(fn_conf, "r") as f:
@@ -242,7 +262,8 @@ lay_info=[[eg.Text(f"sel_font: {sel_font},  Size:{f_size},", font=("Arial",12,"b
                 background_color="lightyellow", key="-info-")],
           [eg.Text(f"file: {FN_EXCEL}, sheet: {SHEET_NAME},  max_row:{title['max_row']}"+ \
                    f",   max_col:{title['max_column']}", font=("Arial",12,'bold'),
-                   background_color="lightyellow",)],
+                   background_color="lightyellow",), 
+           eg.Text(" ", expand_x=True, background_color="lightyellow",),eg.Button("HELP"), ],
          ]
 lay_status = [
     [eg.Input(f"{final_d}", width=12, background_color="lightyellow", key="-final_d-"),
@@ -253,7 +274,7 @@ lay_status = [
     ]
 
 layout = [
-    [eg.Frame(f" JROD-GUI2-ARC: {script_name}  ver: {eg.__version__} ", expand_x=True,
+    [eg.Frame(f" JROD-GUI2 Project: {script_name}  TkEasyGUI ver: {eg.__version__} ", expand_x=True,
             layout=lay_info, font=("Arial",10,'bold'), background_color="lightyellow",color="blue") ],
     [eg.Text("  ",font=("Arial",5,'bold'),),],
     [eg.Text(f"ID: {id:10}, ", key="-id-"),
@@ -288,15 +309,15 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
                  resizable=True, center_window=False, location=(10,10)) as window:
     if flag:
         flag = 0
-        print("get_center_location=", window.get_center_location())
-        print("get_screen_size=", window.get_screen_size())
+        logger.debug(f"get_center_location= {window.get_center_location()}")
+        logger.debug(f"get_screen_size= {window.get_screen_size()}")
         aaa = 0.98
-        print("set_alpha_channel=", aaa)
+        logger.debug(f"set_alpha_channel= {aaa}")
         window.set_alpha_channel(aaa)
         w_size = (700,850) # Width, Height
-        print("set_size=", w_size)
+        logger.debug(f"set_size= {w_size}")
         window.set_size(w_size)
-        print("get_size=", window.get_size())
+        logger.debug(f"get_size= {window.get_size()}")
         setByMap(j_map, ws, PTR, window)
     # event loop
     for event, values in window.event_iter(timeout=1000): # 1000 = 1 sec.
