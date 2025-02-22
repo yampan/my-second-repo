@@ -7,8 +7,74 @@ openpyxl で読み書きできるのは .xlsx 形式のファイルのみです�
 from openpyxl import load_workbook
 
 import openpyxl
+import sys
 
-def excel_copy_sort_search(input_file="aaa.xlsx", output_file="bbb.xlsx", search_val="1234"):
+def copy_worksheet_with_styles(input_file="mylib\\aaa.xlsx", 
+                               output_file="mylib\\bbb.xlsx"):
+    """
+    ワークシートをコピーし、スタイルも保持する関数
+
+    Args:
+        input_file (str): 入力Excelファイル名
+        output_file (str): 出力Excelファイル名
+    """
+    try:
+        wb = openpyxl.load_workbook(input_file)
+        ws = wb["test1"]
+
+        # ワークシートをコピー
+        ws2 = wb.copy_worksheet(ws)
+        ws2.title = "test2" #コピー後にシート名を変更
+
+        wb.save(output_file)
+        print("ワークシートをコピーし、スタイルも保持しました。")
+        return wb, ws, ws2
+    
+    except FileNotFoundError:
+        print(f"ファイル '{input_file}' が見つかりません。")
+    except KeyError:
+        print("指定されたシートが見つかりません。")
+    except Exception as e:
+        print(f"エラーが発生しました: {e}")
+
+
+def sort_data2( ws, keys):
+    """
+    ワークシートのデータをソートする関数
+
+    Args:
+        ws (openpyxl.worksheet.worksheet.Worksheet): ワークシートオブジェクト
+        keys: (1,2) col number (1より開始) A:1, B:2 .... (1,2)
+    return 
+        ws: ソートされたもの
+    """
+    print("D0 keys={keys}")
+    
+    data = list(ws.iter_rows(min_row=2))  # ヘッダーを除いたデータを取得
+    print(f"data={data}")
+    for i, row in enumerate(data, start=2):
+        for j, cell in enumerate(row):
+            if j==0: print(f"{cell}, value={cell.value}")
+    k1, k2 = keys
+    data.sort(key=lambda row: (row[k1-1].value, row[k2-1].value))  # B列と10列目でソート
+    print(f"D1 data={data}")
+    
+    # ソートされたデータをワークシートに書き込む
+    for i, row in enumerate(data, start=2):
+        
+        for j, cell in enumerate(row):
+            if j==0: print(f"{cell}, value={cell.value}")
+            ws.cell(row=i, column=j + 1, value=cell.value)
+    return ws
+
+if __name__ == "__main__":
+    wb, ws, ws2 = copy_worksheet_with_styles()
+    ws2 = sort_data2(ws2, keys=(1, 3))
+    wb.save("mylib\\bbb.xlsx")
+    sys.exit()
+    
+def excel_copy_sort_search(input_file="mylib\\aaa.xlsx",
+                           output_file="mylib\\bbb.xlsx", search_val="1234"):
     """
     Excelファイルのコピー、ソート、検索を行う関数
 
@@ -17,25 +83,25 @@ def excel_copy_sort_search(input_file="aaa.xlsx", output_file="bbb.xlsx", search
         output_file (str): 出力Excelファイル名
         search_val (str): 検索する値
     """
-
+    #if 1:
     try:
         # Excelファイルの読み込み
         wb = openpyxl.load_workbook(input_file)
         ws = wb["test1"]
-
+        print("C1")
         # 新しいワークシートを作成し、データをコピー
         ws2 = wb.create_sheet(title="test2")
         for row in ws.iter_rows(values_only=True):
             ws2.append(row)
-
+        print("C2")
         # データのソート
         sort_data(ws2)
-
+        print("C3")
         # ソート結果を保存
         wb.save(output_file)
 
         # 検索
-        col_no = 2  # B列
+        col_no = 1  #1:A  2:B列
         n = 2  # 2行目から検索開始
         col, line = search(ws2, col_no, search_val, n)
 
@@ -60,10 +126,10 @@ def sort_data(ws):
     Args:
         ws (openpyxl.worksheet.worksheet.Worksheet): ワークシートオブジェクト
     """
-
+    print("D0")
     data = list(ws.iter_rows(min_row=2))  # ヘッダーを除いたデータを取得
-    data.sort(key=lambda row: (row[1].value, row[9].value))  # B列と10列目でソート
-
+    data.sort(key=lambda row: (row[0].value, row[3].value))  # B列と10列目でソート
+    print("D1")
     # ソートされたデータをワークシートに書き込む
     for i, row in enumerate(data, start=2):
         for j, cell in enumerate(row):
@@ -83,7 +149,7 @@ def search(ws, col_no, val, n):
     Returns:
         tuple: 見つかった場合は列データのリストと行番号、見つからなかった場合はNone, None
     """
-
+    print("serach: {val}")
     for row in ws.iter_rows(min_row=n):
         if str(row[col_no - 1].value) == val:
             col = [cell.value for cell in row]
@@ -92,7 +158,16 @@ def search(ws, col_no, val, n):
 
 
 if __name__ == "__main__":
-    excel_copy_sort_search()
+    import os, sys
+    script_path = os.path.abspath(sys.argv[0])
+    script_name = os.path.basename(script_path)
+    current_directory = os.getcwd()
+    print("現在のディレクトリ:", current_directory)
+    print(f"=== Start: {script_name} ===")
+    print(f"スクリプトのパス: {script_path}")
+    print(f"スクリプト名: {script_name}")
+
+    excel_copy_sort_search(search_val="3")
 exit
 #
 # ======================================================================================
