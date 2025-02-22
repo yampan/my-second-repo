@@ -6,7 +6,96 @@ openpyxl で読み書きできるのは .xlsx 形式のファイルのみです�
 # module
 from openpyxl import load_workbook
 
-# =======================================================
+import openpyxl
+
+def excel_copy_sort_search(input_file="aaa.xlsx", output_file="bbb.xlsx", search_val="1234"):
+    """
+    Excelファイルのコピー、ソート、検索を行う関数
+
+    Args:
+        input_file (str): 入力Excelファイル名
+        output_file (str): 出力Excelファイル名
+        search_val (str): 検索する値
+    """
+
+    try:
+        # Excelファイルの読み込み
+        wb = openpyxl.load_workbook(input_file)
+        ws = wb["test1"]
+
+        # 新しいワークシートを作成し、データをコピー
+        ws2 = wb.create_sheet(title="test2")
+        for row in ws.iter_rows(values_only=True):
+            ws2.append(row)
+
+        # データのソート
+        sort_data(ws2)
+
+        # ソート結果を保存
+        wb.save(output_file)
+
+        # 検索
+        col_no = 2  # B列
+        n = 2  # 2行目から検索開始
+        col, line = search(ws2, col_no, search_val, n)
+
+        if col:
+            print(f"値 '{search_val}' が行 {line} に見つかりました。")
+            print(f"列データ: {col}")
+        else:
+            print(f"値 '{search_val}' は見つかりませんでした。")
+
+    except FileNotFoundError:
+        print(f"ファイル '{input_file}' が見つかりません。")
+    except KeyError:
+        print("指定されたシートが見つかりません。")
+    except Exception as e:
+        print(f"エラーが発生しました: {e}")
+
+
+def sort_data(ws):
+    """
+    ワークシートのデータをソートする関数
+
+    Args:
+        ws (openpyxl.worksheet.worksheet.Worksheet): ワークシートオブジェクト
+    """
+
+    data = list(ws.iter_rows(min_row=2))  # ヘッダーを除いたデータを取得
+    data.sort(key=lambda row: (row[1].value, row[9].value))  # B列と10列目でソート
+
+    # ソートされたデータをワークシートに書き込む
+    for i, row in enumerate(data, start=2):
+        for j, cell in enumerate(row):
+            ws.cell(row=i, column=j + 1, value=cell.value)
+
+
+def search(ws, col_no, val, n):
+    """
+    ワークシート内で指定された値を検索する関数
+
+    Args:
+        ws (openpyxl.worksheet.worksheet.Worksheet): ワークシートオブジェクト
+        col_no (int): 検索する列番号
+        val (str): 検索する値
+        n (int): 検索を開始する行番号
+
+    Returns:
+        tuple: 見つかった場合は列データのリストと行番号、見つからなかった場合はNone, None
+    """
+
+    for row in ws.iter_rows(min_row=n):
+        if str(row[col_no - 1].value) == val:
+            col = [cell.value for cell in row]
+            return col, row[0].row
+    return None, None
+
+
+if __name__ == "__main__":
+    excel_copy_sort_search()
+exit
+#
+# ======================================================================================
 #  Excel ファイルの読み込み
 
 def openXl(fn, sheet_name="JROD"):
@@ -147,7 +236,7 @@ def setRow(ws, x, data):
     
 
 
-if __name__ == "__main__":
+if __name__ == "__main1__":
     print("このスクリプトは直接実行されました")
     fn = 'JRODe_SRC_Sample.xlsx'
     print(f'excel filename: {fn}')
