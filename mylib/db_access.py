@@ -15,29 +15,17 @@ DATABASE = 'MOSAIQ'
 USERNAME = 'MOSAIQUser'
 PASSWORD = 'mosaiq'
 
-#driver = "{ODBC Driver 18 for SQL Server}"
-driver = "{SQL Server}"
+connectionString = None
 
-connectionString = f'DRIVER={driver};' +f'SERVER={SERVER};' +\
-                   f'DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD};Trusted_Connection=no'
-print("str=", connectionString)
+def db_init():
+    global connectionString
+    
+    driver = "{SQL Server}"
+    connectionString = f'DRIVER={driver};' +f'SERVER={SERVER};' +\
+                    f'DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD};Trusted_Connection=no'
+    return connectionString
+    #return
 
-#conn = pyodbc.connect(connectionString)
-
-# str= DRIVER={SQL Server};SERVER=172.31.12.11;DATABASE=MOSAIQ;UID=MOSAIQUser;
-# PWD=mosaiq;Trusted_Connection=no
-SQL_QUERY = """
-SELECT TOP 5 c.CustomerID, c.CompanyName, COUNT(soh.SalesOrderID) AS OrderCount 
-FROM SalesLT.Customer AS c 
-LEFT OUTER JOIN SalesLT.SalesOrderHeader AS soh ON c.CustomerID = soh.CustomerID 
-GROUP BY c.CustomerID, c.CompanyName 
-ORDER BY OrderCount DESC;
-"""
-SQL_QUERY = '''select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 from admin where pat_id1 = '16119';'''
-#SQL_QUERY = '''select table_name from information_schema.tables where table_type='base table';'''
-#SQL_QUERY = '''select top 100 pat_id1, last_name, first_name from patient ;'''
-#SQL_QUERY = '''select * from prompt where pro_id='13112';'''
-#SQL_QUERY = '''select pro_id,text from prompt where pro_id>='13100' and pro_id<='13200';'''# SQL 実行、結果を印字
 
 # SQL 実行、結果を印字
 def query(sql):
@@ -116,10 +104,10 @@ def execSQL(sql, values):
     実行しました.
     '''
 
-
-
 if __name__ == "__main__":
-
+    db_init()
+    SQL_QUERY = '''select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
+    from admin where pat_id1 = '16119';'''
     rows = query(SQL_QUERY)
     pprint.pprint(rows)
 

@@ -37,23 +37,42 @@ ref: get_clipboard(), set_clipboard(), screenshot(),
 import TkEasyGUI as eg
 import json
 
+# 定数
 f_size = 14 # 16
+fn_font = "fontlist0.json"
+
+
 # list fonts
 font_items2 = sorted(eg.get_font_list())
 font_items=[]
 f_dic = {}
-for f in font_items2:
-    if f[0:1] in ['@', "$", "%", "&"]: continue
-    elif "HGrep" in f or "CR" in f or "AR" in f or "HG" in f or \
-        "Jsut" in f or "ＤＦ" in f or "明朝" in f or "TA" in f or \
-          "symbol" in f.lower():
-        continue
-    font_items.append(f)
-    f_dic[f] = 1
+if 1: # read  encoding="utf-8-sig" はBOM対策
+  with open(fn_font, "r", encoding="utf-8-sig") as f:
+      f_dic = json.load(f)
+  print("{fn_font} is opened.")
+  for i in f_dic.keys():
+    if f_dic[i]:
+      font_items.append(i)
+  font_items = sorted(font_items)
+else:
+  for f in font_items2:
+      if f[0:1] in ['@', "$", "%", "&"]: continue
+      elif "HGrep" in f or "CR" in f or "AR" in f or "HG" in f or \
+          "Jsut" in f or "ＤＦ" in f or "明朝" in f or "TA" in f or \
+            "symbol" in f.lower():
+          continue
+      font_items.append(f)
+      f_dic[f] = 1
 # save font-name
-with open("fontlist.json", "w") as f:
-    json.dump(f_dic, f, indent=2, ensure_ascii=False)
+#with open(fn_font, "w") as f:
+#    json.dump(f_dic, f, indent=2, ensure_ascii=False)
+#print("fontlist0.json was created.")
+
 # define layout
+col1 = eg.Column([[eg.Listbox(values=font_items, size=(40, 20),
+            key="-fontlist-", enable_events=True, ),] ] )
+col2 = eg.Column([ [eg.Button("enable", )],
+                  [eg.Button("disable")], ], expand_x=True )
 layout = [
     [
         eg.Frame(
@@ -62,16 +81,10 @@ layout = [
             layout=[[eg.Text(f"Hello, 123 こんにちは?  Size:{f_size}", key="-sample-")]],
         )
     ],
-    [
-        eg.Listbox(
-            values=font_items,
-            size=(40, 20),
-            key="-fontlist-",
-            enable_events=True,
-        )
-    ],
+    [col1, col2],
     [eg.Input("-", key="-font-", expand_x=True), eg.Button("Copy")],
     [eg.Button("font +"), eg.Button("font -"), eg.Text("   "),
+     eg.Button("Save", color="#2222FF", font=("Arial",16,"bold")),eg.Text("  "),
      eg.Button("Exit", color="#FF2222", font=("Arial",16,"bold"))],
 ]
 # create Window
@@ -87,7 +100,7 @@ with eg.Window("Font List", layout, font=("Arial", f_size), finalize=True,
         aaa = 0.95
         print("set_alpha_channel=", aaa)
         window.set_alpha_channel(aaa)
-        w_size = (600,600)
+        w_size = (600,700)
         print("set_size=", w_size)
         window.set_size(w_size)
     # set_theme
@@ -109,12 +122,27 @@ with eg.Window("Font List", layout, font=("Arial", f_size), finalize=True,
             index = fontlist.get_cursor_index()
             if index >= 0:
                 font_name = font_items[index]
-                window["-font-"].update(font_name)
+                window["-font-"].update(f"font_name   :{f_dic[font_name]}")
                 #window["-sample-"].update(font=(font_name, 18))
                 window["-sample-"].set_text(f"Hello, 123 こんにちは?  Size:{f_size}")
                 window["-sample-"].update(font=(font_name, f_size))
         if event == "Copy":
             eg.set_clipboard(values["-font-"])
             eg.print("Copied to clipboard:\n" + values["-font-"])
+        if event == "Save":
+            with open(fn_font, "w", encoding="utf-8") as f:
+                json.dump(f_dic, f, indent=2, ensure_ascii=False)
+            print(f"fontlist is saved in '{fn_font}'")
+        if event == "enable":
+            f_dic[font_name] = 1
+            print("f{font_name} is set to 1")
+            window["-font-"].update(f"font_name   :{f_dic[font_name]}")
+        if event == "disable":
+            f_dic[font_name] = 0
+            print("f{font_name} is set to 0")
+            window["-font-"].update(f"font_name   :{f_dic[font_name]}")
+    # --- for loop end.
+# --- END
+print("Normal end.")
 
 

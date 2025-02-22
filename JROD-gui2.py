@@ -1,3 +1,4 @@
+# JROD-gui2.py
 """
 Font List Sample
 
@@ -7,7 +8,7 @@ ref: https://github.com/kujirahand/tkeasygui-python
 Pro4： TkEasyGUI-test を pip install したが、import でエラーとなる。
        Python3.12 を再インストールする。
 acubic-PE:
-       D:\python_test\TkEasyGUI\my-first-repo
+       D:/python_test/TkEasyGUI/my-first-repo
        
 repo: https://github.com/yampan/my-first-repo.git
 
@@ -49,7 +50,7 @@ ref: get_clipboard(), set_clipboard(), screenshot(),
 import TkEasyGUI as eg
 import json, os, sys, datetime
 import pytz
-from lib.readWriteXL import openXl, getRow, setRow
+from mylib.readWriteXL import openXl, getRow, setRow
 
 script_path = os.path.abspath(sys.argv[0])
 script_name = os.path.basename(script_path)

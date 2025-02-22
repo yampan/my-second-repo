@@ -1,3 +1,4 @@
+### JROD-gui3-ARC (Branch: search_ando_sort)
 ### MS VS-Code Himt
 # 1. ターミナルを開く　　ctrl + @, clear: cls,  Ctrl+Shift+P
 # 2.　GitHUB commitの方法
@@ -59,7 +60,7 @@ import TkEasyGUI as eg
 import json, os, sys, datetime
 import pytz
 from mylib.readWriteXL import openXl, getRow, setRow
-from mylib.db_access import query, trans2
+from mylib.db_access import query, trans2, db_init
 from mylib.logger import (FMT, FMT2, createLogger, 
             clearLogfile, log_init, get_file_info)
 import glob
@@ -79,8 +80,6 @@ logger.error('error message')
 logger.critical('critical message')
 '''
 logger = log_init(LOG_FN)
-
-# ---
 get_file_info(".", "LOG*", show=1)
 
 script_path = os.path.abspath(sys.argv[0])
@@ -89,8 +88,7 @@ logger.debug(f"=== Start: {script_name} ===")
 logger.debug(f"スクリプトのパス: {script_path}")
 logger.debug(f"スクリプト名: {script_name}")
 
-#win = help_window(script_name)
-#win.close()
+logger.debug(f"connect = {db_init()}")
 
 fn_conf = "JROD_config.json"
 with open(fn_conf, "r") as f:
