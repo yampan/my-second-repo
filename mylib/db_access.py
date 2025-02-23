@@ -41,8 +41,8 @@ def query(sql):
     return rows
 
 # transaction
-def trans2(sql, values):
-    print("### trans2 ###")
+def DBtrans(sql, values):
+    print("### DBtrans ###")
     print("sql=", sql)
     print("values=", values)
     
@@ -178,7 +178,7 @@ if __name__ == "__main__":
     where pat_id1 = 16839 ;'''
 
     #values=(13113, 16839) 
-    trans2(sql)
+    DBtrans(sql)
 
     ### 出力
     '''### trans2 ###

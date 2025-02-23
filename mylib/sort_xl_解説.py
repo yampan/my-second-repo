@@ -2,6 +2,9 @@
 
 #### Excel作成/編集を自動化！python openpyxlのまとめ
 # https://qiita.com/mathlive/items/20078f4b31273c180f51
+# 公式ドキュメントは以下です。
+# https://openpyxl.readthedocs.io/en/stable/
+# 
 '''
 Excelファイル新規作成
 wb = openpyxl.Workbook() # workbookの作成
@@ -197,7 +200,7 @@ ws['A1'].fill = PatternFill(fill_type="solid", fgColor="0000FF00")
 
 
 
-from openpyxl import Workbook
+from openpyxl import Workbook, styles
 def sort_test1():
     
     # フィルタを適用
@@ -209,50 +212,89 @@ def sort_test1():
     # ファイルを保存
     wb.save('mylib\\sort_test.xlsx')
 
-def row2list(row):
+def row2list(row, deb=0):
     l = []
-    print("row=", row)
+    if deb: print("#214: row=", row)
     for cell in row:
-        print(cell.value)
+        if deb: print("#216: cell=", cell.value)
         l.append(cell.value)
     return l
 
-### ソートTEST
-def sort_test(wb, ws):
+### ソート
+def sort2(wb, ws, key, deb=0):
+    """
+    sort keyは1 or 2個。row dataの最後にindexを付加
+    args:
+        wb: workbook
+        ws: worksheet
+        key:int or list -  key no (1始まり)
+    return:
+        ws: sorted ws
+    """
     # get all cell
     header = []
     data = []
+    index_col = ws.max_column+1
     for n, row in enumerate(ws, start=1): # 各行のループ
-        if n == 1: header = row
+        cell = ws.cell(row=n, column=index_col)
+        if n == 1: 
+            header = row
+            cell.value = 'index'
+            header = header + (cell,)
         else:
+            cell.value=n
+            row = row + (cell,)
             data.append(row)
     # ---
-    print(f"header= {header}")
-    for n, i in enumerate(data, start=2):
-        print(f"{n}): {i}")
+    if deb:
+        print(f"HDR {header}")
+        for n, i in enumerate(data, start=2):
+            print(f"{n}): {i}")
     
     # sort
-    data.sort(key=lambda row: (row[2].value)) 
-    print()
+    if type(key) is int:
+        data.sort(key=lambda row: (row[key-1].value)) 
+    else:
+        data.sort(key=lambda row: (row[key[0]-1].value,  row[key[1]-1].value)) 
+    print(f"#252 key = {key}")
     for n, i in enumerate(data, start=2):
         print(f"{n}): {i}")
+           
+    #ws2['A1'] = row2list(header)[0] # OK
+    #ws2[1] = row2list(header) # NG
+    #print(f"#260 'A1:A2' = {ws2['A1:B1']}") # Cell get OK, cell write NG
+    
+    # 各セルから値を抽出して、　data_v に保存する。
+    data_v = []
+    a = []
+    for i in header:
+        a.append(i.value) 
+    data_v.append(a)
+    for row in data:
+        a = []
+        for col in row:
+            a.append(col.value)
+        data_v.append(a)
         
-    # ws create
-    ws2 = wb.create_sheet(title="Sorted")
+    # data_v から値をもどす。
+    for y, row in enumerate(data_v, start=1):
+        for x, col in enumerate(row, start=1):
+            ws.cell(row=y, column=x).value = col
     
-    # header write
-    ws2.append(row2list(header))
-    # cell をもどす。
-    for n, row in enumerate(data, start=1): # 各行のループ
-        ws2.append(row2list(row)) # data[0] から
-        print("write:", n, row)
-    
-    # ファイルを保存
-    wb.save('mylib\\sort_test.xlsx')
-
+    # sort column に色を付ける
+    fill_color1 = styles.PatternFill(fgColor="ACEBF0", fill_type="solid") # 青色単色
+    fill_color2 = styles.PatternFill(fgColor="FFFF66", fill_type="solid") # 黄色
+    color = [fill_color1, fill_color2]
+    if type(key) is int:
+        key = [key]
+    for n,k in enumerate(key):
+        for y in range(1, ws.max_row+1):
+            cell = ws.cell(column=k, row=y)
+            cell.fill = color[n]
+    return
 
 if __name__ == "__main__":
-        # 新しいワークブックを作成
+    # 新しいワークブックを作成
     wb = Workbook()
     ws = wb.active
 
@@ -262,10 +304,22 @@ if __name__ == "__main__":
         ["Apple", 0.5, 10],
         ["Banana", 0.25, 20],
         ["Cherry", 1.0, 15],
+        ["Banana", 0.5, 19],
         ["Date", 1.5, 5]
     ]
     for row in data:
         ws.append(row)
-
-
-    sort_test(wb, ws)
+    
+    # sheet copy
+    ws2 = wb.copy_worksheet(ws)
+    ws2.title = 'Sorted'
+    
+    key = [1,3] # sort-key (1始まり)
+    sort2(wb, ws2, key)
+    
+    # ファイルを保存
+    fn_save = 'mylib\\sort_test.xlsx'
+    wb.save(fn_save)
+    print(f"#255 saved to '{fn_save}'. (key={key})")
+    # ---
+    print("Normal end.")

@@ -56,11 +56,13 @@ ref: get_clipboard(), set_clipboard(), screenshot(),
      load_json_file(fn), save_json_file(fn, dat)
 
 """
+
 import TkEasyGUI as eg
 import json, os, sys, datetime
 import pytz
-from mylib.readWriteXL import openXl, getRow, setRow
-from mylib.db_access import query, trans2, db_init
+from mylib.readWriteXL import (openXl, getRow, setRow, sort2,
+            search, JST, j_map, trans2, trans)
+from mylib.db_access import query, DBtrans, db_init
 from mylib.logger import (FMT, FMT2, createLogger, 
             clearLogfile, log_init, get_file_info)
 import glob
@@ -94,6 +96,7 @@ fn_conf = "JROD_config.json"
 with open(fn_conf, "r") as f:
     f_dic = json.load(f)
 
+# font
 font_items = list(f_dic.keys())
 f_size = f_dic["f_size"]
 sel_font = f_dic["sel_font"]
@@ -133,23 +136,18 @@ stats = ['1.非担癌生存','2.担癌生存','3.担癌不詳生存','4.原病�
 status_ARC = {'13111':'1.非担癌生存','13114':'4.原病死', '13113':'3.担癌不詳生存', 
               '13112':'2.担癌生存','13115':'5.他病死','13116':'6.不明死', '13117':'7.消息不明' }
 
-# j_map: {'var_name' : (81:'Dose') }
-j_map = {"id":(112,'ID'), 'kannri_id':(1,'院内管理コード') , 'name':(114, '名前'), 
-         'sex':(2,'性別'),'disease':(10, '疾患名'),'dis_icdo':(13, '原発部位ICD-Oコード'),
-         'pathology':(14, '病理組織'), 'path_icdo':(15,'病理組織ICD-Oコード'),
-         'st_date':(43, '外部照射開始日'), 'en_date':(44, '外部照射終了日'), 'dose':(45,'外部照射総線量'),
-         'frac':(46,'外部照射日数'), 'days':(46,'外部照射日数'), 'perday':(47, '外部照射分割回数'),
-         'comp':(85,'放射線治療完遂度'), 'status':(87,'生死の状況'), 'final_d': (88,'最終確認日') }
-
 # excel open  wb:workbook, ws:worksheet, title:dict {}
 wb, ws, title = openXl(FN_EXCEL, SHEET_NAME)
-logger.debug(f"title = {title}")
+ws2 = wb.copy_worksheet(ws)
+ws2.title = "copied-ws"
+ws3 = wb.create_sheet(title = 'trans-log')
+ws3.append(["ROW", "COLUMN", "Original value", "new value", "item name", "datetime" ])
+logger.debug(f"ws2: copied-ws,  ws3: trans-log were created.")
 
 # title: dict ==> title2: list
 title2 = ['index']
-for i in range(1,115):
+for i in range(1,ws.max_column+1):
     title2.append(title[i])
-
 
 
 # PTRにより、データの読み出し
@@ -159,7 +157,7 @@ def setByMap(j_map, ws, PTR, window, deb=0):
     global final_d, status
 
     col = getRow(ws, PTR)
-    logger.debug(f"col = {col}")
+    #logger.debug(f"col = {col}")
     if deb: print("col =", col)
     
     #    Global 変数へ展開
@@ -174,6 +172,9 @@ def setByMap(j_map, ws, PTR, window, deb=0):
     # dayCheckM()
     NG, mes, (low, period, high) = dayCheckM(col, PTR, title2, sys.stdout)
     comp_pre = pred(col, low, period, high, '85:放射線治療完遂度')
+    # DB read
+    final_d2, status2 = DBread(kannri_id)
+    logger.debug(f"#setByMap: final_d2={final_d2}, status2={status2}")
     
     # redraw
     window["-id-"].update(f"ID: {id:10}, ")
@@ -187,9 +188,6 @@ def setByMap(j_map, ws, PTR, window, deb=0):
     window["-status0-"].update(f"  生死の状況: {status:6} ==> ")
     window["-status-"].update(f'{status}')
     window["-info-"].update(f"  {JST()}")
-    # DB read
-    final_d2, status2 = DBread(kannri_id)
-    logger.debug(f"#setByMap: final_d2={final_d2}, status2={status2}")
     window["-final_d2-"].update(f' DB: 　{final_d2}     生死の状況：{status2}')
     return
 
@@ -243,7 +241,7 @@ def DBwrite(id, dt, st):
     """
     DB に SQLを実行し、final_d2, status2 をセットする。
     Args:
-        id: 管理番号
+        id: where 管理番号 = id
         dt: 最終確認日
         st: 病態
     Returns:
@@ -263,16 +261,11 @@ def DBwrite(id, dt, st):
                 where pat_id1 = ? ;'''
     #print(f'#DBwrite: sql: {sql},\n  values: {values}')
     logger.debug(f'#DBwrite: sql: {sql},\n  values: {values}')
-    #trans2(sql, values)
+    #DBtrans(sql, values)
     return 
 
 
-# JST (日本標準時) のタイムゾーンを取得
-def JST():
-    jst = pytz.timezone('Asia/Tokyo')
-    now = datetime.datetime.now(jst) # 現在の時刻をJSTで取得
-    #now = now.strftime('%Y-%m-%d %H:%M:%S %Z%z') # 表示形式をカスタマイズ
-    return now.strftime('%Y-%m-%d %H:%M:%S (%Z)') # 表示形式をカスタマイズ
+
 
 
 ### eg.Text("click me", font=("Arial", 30,'bold italic'), enable_events=True, 
@@ -304,7 +297,9 @@ layout = [
     [eg.Text(f"ID: {id:10}, ", key="-id-"),
      eg.Text(f" kanri: {kannri_id:10}, name: {name:15}", key="-id2-"), ],
     [eg.Text(f"{disease:15},({dis_icdo:5}) / {pathology},({path_icdo})", key="-dis-")],
-    [eg.Text("----------------------------------------------------------- ID ==> ", ), 
+    [eg.Input("管理番号", width=10, key="-kanri_no-"),
+     eg.Button("search"),
+     eg.Text("---------------------------------------- ID ==> ", ), 
      eg.Button("paste", font=("Arial",13,'bold'), color="purple",),],
     [eg.Text(f"開始日:{st_date}, 終了日:{en_date}  Dose:{dose}, Frac:{frac}, days:{days},", key="-date-")],
     [eg.Text(f"{low:8} < {days} < {high:8.2f},     元の完遂度: {comp}", key="-comp-")],
@@ -343,6 +338,8 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
         window.set_size(w_size)
         logger.debug(f"get_size= {window.get_size()}")
         setByMap(j_map, ws, PTR, window)
+        window["-body-"].print(f"\nfn = '{FN_EXCEL}', max_col = {ws.max_column}, max_row = {ws.max_row}",
+                               text_color="purple")
     # event loop
     for event, values in window.event_iter(timeout=1000): # 1000 = 1 sec.
         if event == "-TIMEOUT-":
@@ -356,11 +353,14 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
         if event == "Save":
             f_dic["PTR"] = PTR
             f_dic["FN_EXCEL"] = FN_EXCEL
+            
             with open("fontlist.json", "w") as f:
               json.dump(f_dic, f, indent=2, ensure_ascii=False)
-            print("#save save to 'JRODe_test.xlsx'")
+            logger.debug("#save to 'JRODe_test.xlsx'")
             returnByMap(j_map, ws, PTR)
             wb.save('JRODe_test.xlsx')
+            window["-body-"].print("saved to ('fontlist.json', 'JRODe_test.xlsx')",
+                                   text_color="purple")
         if event == "-statlist-":
             statlist: eg.Listbox = window["-statlist-"]
             index = statlist.get_cursor_index()
@@ -378,18 +378,23 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
             window["-font-"].update(comp)
         if event in ["fix", "fix2"]:
             final_d = values["-final_d-"]
-            logger.debug("comp=", comp, "status=", status, "final_d=", final_d)
+            logger.debug(f"comp= {comp}, status= {status}, final_d= {final_d}")
             comp = values["-font-"]
             status = values["-status-"]
-            logger.debug("comp=", comp, "status=", status, "final_d=", final_d)
-            window["-comp-"].update(f"{low:8} < {days} < {high:8.2f},    data:{comp}", key="-comp-")
+            logger.debug(f"comp= {comp}, status= {status}, final_d= {final_d}")
+            window["-comp-"].update(f"{low:8} < {days} < {high:8.2f},    data:{comp}")
             window["-status-"].update(f"{status}")
             window["-status0-"].update(f"  0生死の状況: {status} ==> ")
+            if event == "fix":
+                logger.debug(f"trans2 = {trans2(ws2, PTR, {'comp':comp}, ws3)}")
+                logger.debug(f"trans2 = {trans2(ws2, PTR, {'status':status}, ws3)}")
             if event == 'fix': window["-body-"].print(event, end=", ", text_color="purple")
             returnByMap(j_map, ws, PTR)
             if event == 'fix2':
                 DBwrite(kannri_id, final_d, status)
                 window["-body-"].print(event, end=", ", text_color="purple")
+                logger.debug(f"trans2 = {trans2(ws2, PTR, {"final_d":final_d}, ws3)}")
+                logger.debug(f"trans2 = {trans2(ws2, PTR, {"status":status}, ws3)}")
         if event in ["-ptr-", "< prev", "next >", "set"]:
             if event == "< prev" and PTR >2: PTR -= 1
             if event == "next >" and PTR < ws.max_row: PTR += 1
@@ -405,11 +410,21 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
         if event == "HELP":
             win = help_window(script_name)
             win.close()
-
+        if event == "search":
+            val = values["-kanri_no-"]
+            logger.debug(f"search: (ws, 1, {val}, 2)")
+            scol, sPTR = search(ws, 1, val, 2)
+            if sPTR is not None:
+                logger.debug(f"scol={scol[:10]} ..., sPTR={sPTR}")
+                PTR = sPTR
+                setByMap(j_map, ws, PTR, window)
+            else:
+                logger.debug(f"search: NOT FOUND, sPTR={sPTR}")
+            window["-body-"].print(f"search: {val}, sPTR={sPTR}", text_color="purple")
         # LOG
         text = f"#event:{event}, PTR:{PTR}, comp:{comp}, final_d:{final_d}, status:{status}"
         
         window["-body-"].print(text, text_color="darkblue", ) # background_color="lightpink"
         #window["-body-"].update(text)
 # ---
-print("END.")
+print("   ==> NORMAL END.")

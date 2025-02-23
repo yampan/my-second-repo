@@ -1,21 +1,51 @@
-2025-02-22 10:55:53.769 [DEBUG  ] log|log_init:99   debug message
-2025-02-22 10:55:53.769 [INFO   ] log|log_init:100  info message
-2025-02-22 10:55:53.769 [WARNING] log|log_init:101  warn message
-2025-02-22 10:55:53.769 [ERROR  ] log|log_init:102  error message
-2025-02-22 10:55:53.770 [CRITICAL] log|log_init:103  critical message
-2025-02-22 10:55:53.772 [DEBUG  ] log|<module>:87   === Start: JROD-gui3-ARC.py ===
-2025-02-22 10:55:53.772 [DEBUG  ] log|<module>:88   スクリプトのパス: d:\python_test\TkEasyGUI\my-second-repo\JROD-gui3-ARC.py
-2025-02-22 10:55:53.772 [DEBUG  ] log|<module>:89   スクリプト名: JROD-gui3-ARC.py
-2025-02-22 10:55:53.772 [DEBUG  ] log|<module>:91   connect = DRIVER={SQL Server};SERVER=172.31.12.11;DATABASE=MOSAIQ;UID=MOSAIQUser;PWD=mosaiq;Trusted_Connection=no
-2025-02-22 10:55:54.280 [DEBUG  ] log|<module>:146  title = {1: '院内管理コード', 2: '性別', 3: '照射開始時年齢', 4: '照射開始時Karnofsky PS', 5: '照射開始時ECOG PS', 6: '重複がん', 7: '重複がんの時期', 8: '重複がんメモ', 9: '照射歴', 10: '疾患名', 11: '原発部位', 12: '原発部位側性', 13: '原発部位ICD-Oコード', 14: '病理組織', 15: '病理組織ICD-Oコード', 16: '病期分類名1', 17: 'CPR1', 18: 'T1', 19: 'N1', 20: 'M1', 21: 'Stage1', 22: 'Grade1', 23: '病期分類名2', 24: 'CPR2', 25: 'T2', 26: 'N2', 27: 'M2', 28: 'Stage2', 29: 'Grade2', 30: '病期分類名3', 31: 'CPR3', 32: 'T3', 33: 'N3', 34: 'M3', 35: 'Stage3', 36: 'Grade3', 37: 'JASTRO 構造調査用疾患分類', 38: '今回の治療', 39: '新患・再患', 40: '治療方針', 41: '併用療法', 42: '外来・入院', 43: '外部照射開始日', 44: '外部照射終了日', 45: '外部照射総線量', 46: '外部照射日数', 47: '外部照射分割回数', 48: '一日あたり照射回数', 49: '外部照射カテゴリー', 50: '治療対象遠隔転移部位', 51: '外部照射部位', 52: '外部照射部位ICD-Oコード', 53: '線種1', 54: 'エネルギー1', 55: '線種2', 56: 'エネルギー2', 57: '外部照射担当医', 58: '外部照射指導医', 59: '特殊照射', 60: '治療加算1', 61: '放射線治療管理料一回目', 62: '放射線治療管理料二回目', 63: '外部照射メモ', 64: '密封小線源部位', 65: '密封小線源部位ICD-Oコード', 66: '密封線源', 67: '密封小線源線量率', 68: '密封小線源照射方法', 69: '密封小線源一回線量', 70: '密封小線源分割回数', 71: '密封小線源総線量', 72: '密封小線源治療開始日', 73: '密封小線源治療終了日', 74: '密封小線源治療日数', 75: '密封小線源担当医', 76: '密封小線源指導医', 77: '三次元治療計画', 78: '密封小線源メモ', 79: '非密封線源', 80: '非密封線源投与量', 81: '非密封線源投与回数', 82: '非密封線源投与日', 83: '非密封線源担当医', 84: '非密封線源メモ', 85: '放射線治療完遂度', 86: '一次効果', 87: '生死の状況', 88: '最終確認日', 89: '再発の有無', 90: '再発確認日', 91: '再発部位', 92: '再発部位詳細', 93: '再発治療の有無', 94: '再発治療内容詳細', 95: '有害事象の有無', 96: '有害事象確認日1', 97: '有害事象発生部位1', 98: '有害事象グレード1', 99: '有害事象確認日2', 100: '有害事象発生部位2', 101: '有害事象グレード2', 102: '有害事象確認日3', 103: '有害事象発生部位3', 104: '有害事象グレード3', 105: '有害事象メモ', 106: '続発がんの有無', 107: '続発がん確認日', 108: '続発がん部位', 109: '続発がんメモ', 110: '施設名', 111: '施設コード', 112: 'ID', 113: 'OBR_Set_ID', 114: '診断タイプ', 'max_row': 21, 'max_column': 114}
-2025-02-22 10:55:54.635 [DEBUG  ] log|<module>:336  get_center_location= (110, 110)
-2025-02-22 10:55:54.636 [DEBUG  ] log|<module>:337  get_screen_size= (1920, 1080)
-2025-02-22 10:55:54.636 [DEBUG  ] log|<module>:339  set_alpha_channel= 0.98
-2025-02-22 10:55:54.636 [DEBUG  ] log|<module>:342  set_size= (700, 850)
-2025-02-22 10:55:54.636 [DEBUG  ] log|<module>:344  get_size= (200, 200)
-2025-02-22 10:55:54.636 [DEBUG  ] log|setByMap:162  col = [2, '16532', '女', '80', '', '', '', '', '', '', '肝癌', '肝', 'rt', 'C22.0', 'Hepatocellular carcinoma; NOS', 'M8170/3', 'UICC 8th Japanese', 'p', 'T1a', 'N0', 'M0', 'SIA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '乳癌', '新鮮', '新患', '術後', '', '外来', '2024/02/29', '2024/03/22', '42.56', '23', '16', '1', '', '', '乳頭部及び乳輪の悪性新生物', 'C50.0', 'Photon', '6', '', '', '', '', '', '画像誘導放射線治療加算', '複雑', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '予定治療完遂', '', '非担癌生存', '2024/12/18', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '足利赤十字病院', 'J09007', '0000041750', '', '原発巣']
-2025-02-22 10:55:54.637 [DEBUG  ] log|setByMap:172  setByMap: #121 id=0000041750, comp=予定治療完遂, status=非担癌生存,
-2025-02-22 10:55:54.640 [DEBUG  ] log|DBread:229  sql = select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
+2025-02-23 18:00:19.660 [DEBUG  ] log|log_init:99   debug message
+2025-02-23 18:00:19.660 [INFO   ] log|log_init:100  info message
+2025-02-23 18:00:19.660 [WARNING] log|log_init:101  warn message
+2025-02-23 18:00:19.660 [ERROR  ] log|log_init:102  error message
+2025-02-23 18:00:19.660 [CRITICAL] log|log_init:103  critical message
+2025-02-23 18:00:19.663 [DEBUG  ] log|<module>:89   === Start: JROD-gui3-ARC.py ===
+2025-02-23 18:00:19.663 [DEBUG  ] log|<module>:90   スクリプトのパス: d:\python_test\TkEasyGUI\my-second-repo\JROD-gui3-ARC.py
+2025-02-23 18:00:19.663 [DEBUG  ] log|<module>:91   スクリプト名: JROD-gui3-ARC.py
+2025-02-23 18:00:19.663 [DEBUG  ] log|<module>:93   connect = DRIVER={SQL Server};SERVER=172.31.12.11;DATABASE=MOSAIQ;UID=MOSAIQUser;PWD=mosaiq;Trusted_Connection=no
+2025-02-23 18:00:19.698 [DEBUG  ] log|<module>:145  ws2: copied-ws,  ws3: trans-log were created.
+2025-02-23 18:00:20.042 [DEBUG  ] log|<module>:331  get_center_location= (110, 110)
+2025-02-23 18:00:20.042 [DEBUG  ] log|<module>:332  get_screen_size= (1920, 1080)
+2025-02-23 18:00:20.042 [DEBUG  ] log|<module>:334  set_alpha_channel= 0.98
+2025-02-23 18:00:20.042 [DEBUG  ] log|<module>:337  set_size= (700, 850)
+2025-02-23 18:00:20.043 [DEBUG  ] log|<module>:339  get_size= (200, 200)
+2025-02-23 18:00:20.043 [DEBUG  ] log|setByMap:170  setByMap: #121 id=0000041750, comp=予定治療完遂, status=非担癌生存,
+2025-02-23 18:00:20.044 [DEBUG  ] log|DBread:227  sql = select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
             from admin where pat_id1 = '16532' ;
-2025-02-22 10:55:54.640 [DEBUG  ] log|DBread:232  rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
-2025-02-22 10:55:54.640 [DEBUG  ] log|setByMap:192  #setByMap: final_d2=2023-04-29, status2=4.原病死
+2025-02-23 18:00:20.044 [DEBUG  ] log|DBread:230  rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
+2025-02-23 18:00:20.044 [DEBUG  ] log|setByMap:177  #setByMap: final_d2=2023-04-29, status2=4.原病死
+2025-02-23 18:00:31.599 [DEBUG  ] log|setByMap:170  setByMap: #121 id=0000061050, comp=予定治療完遂, status=原病死,
+2025-02-23 18:00:31.599 [DEBUG  ] log|DBread:227  sql = select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
+            from admin where pat_id1 = '16327' ;
+2025-02-23 18:00:31.600 [DEBUG  ] log|DBread:230  rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
+2025-02-23 18:00:31.600 [DEBUG  ] log|setByMap:177  #setByMap: final_d2=2023-04-29, status2=4.原病死
+2025-02-23 18:00:33.361 [DEBUG  ] log|setByMap:170  setByMap: #121 id=0000067946, comp=予定治療完遂, status=担癌生存,
+2025-02-23 18:00:33.361 [DEBUG  ] log|DBread:227  sql = select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
+            from admin where pat_id1 = '16297' ;
+2025-02-23 18:00:33.361 [DEBUG  ] log|DBread:230  rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
+2025-02-23 18:00:33.361 [DEBUG  ] log|setByMap:177  #setByMap: final_d2=2023-04-29, status2=4.原病死
+2025-02-23 18:00:46.921 [DEBUG  ] log|setByMap:170  setByMap: #121 id=0000067946, comp=予定治療完遂, status=担癌生存,
+2025-02-23 18:00:46.921 [DEBUG  ] log|DBread:227  sql = select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
+            from admin where pat_id1 = '16297' ;
+2025-02-23 18:00:46.921 [DEBUG  ] log|DBread:230  rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
+2025-02-23 18:00:46.922 [DEBUG  ] log|setByMap:177  #setByMap: final_d2=2023-04-29, status2=4.原病死
+2025-02-23 18:01:16.408 [DEBUG  ] log|<module>:381  comp= 予定治療完遂(8日以上の中断あり), status= 7.消息不明, final_d= 2025/01/06
+2025-02-23 18:01:16.408 [DEBUG  ] log|<module>:384  comp= 予定治療完遂(8日以上の中断あり), status= 7.消息不明, final_d= 2025/01/06
+2025-02-23 18:01:16.409 [DEBUG  ] log|<module>:389  trans2 = [5, 85, '予定治療完遂', '予定治療完遂(8日以上の中断あり)', '放射線治療完遂度', '2025-02-23 18:01:16 (JST)']
+2025-02-23 18:01:16.409 [DEBUG  ] log|<module>:390  trans2 = [5, 87, '担癌生存', '7.消息不明', '生死の状況', '2025-02-23 18:01:16 (JST)']
+2025-02-23 18:01:16.410 [DEBUG  ] log|returnByMap:210  returnByMap: #150 comp=予定治療完遂(8日以上の中断あり), col[85]=予定治療完遂(8日以上の中断あり), status=7.消息不明, col[87]=7.消息不明
+2025-02-23 18:01:25.718 [DEBUG  ] log|<module>:381  comp= 予定治療完遂(8日以上の中断あり), status= 7.消息不明, final_d= 2025/01/06
+2025-02-23 18:01:25.718 [DEBUG  ] log|<module>:384  comp= 予定治療完遂(8日以上の中断あり), status= 7.消息不明, final_d= 2025/01/06
+2025-02-23 18:01:25.719 [DEBUG  ] log|returnByMap:210  returnByMap: #150 comp=予定治療完遂(8日以上の中断あり), col[85]=予定治療完遂(8日以上の中断あり), status=7.消息不明, col[87]=7.消息不明
+2025-02-23 18:01:25.719 [DEBUG  ] log|DBwrite:263  #DBwrite: sql: update admin set user_defined_pro_id_3 = ? , 
+                user_defined_dttm_1 = ?  
+                where pat_id1 = ? ;,
+  values: (13117, '2025/01/06', '16297')
+2025-02-23 18:01:25.720 [DEBUG  ] log|<module>:396  trans2 = [5, 88, '2025/01/06', '2025/01/06', '最終確認日', '2025-02-23 18:01:25 (JST)']
+2025-02-23 18:01:25.720 [DEBUG  ] log|<module>:397  trans2 = [5, 87, '7.消息不明', '7.消息不明', '生死の状況', '2025-02-23 18:01:25 (JST)']
+2025-02-23 18:01:29.841 [DEBUG  ] log|<module>:359  #save to 'JRODe_test.xlsx'
+2025-02-23 18:01:29.842 [DEBUG  ] log|returnByMap:210  returnByMap: #150 comp=予定治療完遂(8日以上の中断あり), col[85]=予定治療完遂(8日以上の中断あり), status=7.消息不明, col[87]=7.消息不明
