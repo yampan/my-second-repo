@@ -4,7 +4,7 @@
 openpyxl で読み書きできるのは .xlsx 形式のファイルのみです。
 '''
 # module
-from openpyxl import load_workbook
+from openpyxl import load_workbook, styles
 import pytz, datetime
 import openpyxl
 import sys
@@ -17,6 +17,42 @@ j_map = {"id":(112,'ID'), 'kannri_id':(1,'院内管理コード') , 'name':(114,
          'frac':(46,'外部照射日数'), 'days':(46,'外部照射日数'), 'perday':(47, '外部照射分割回数'),
          'comp':(85,'放射線治療完遂度'), 'status':(87,'生死の状況'), 'final_d': (88,'最終確認日') }
 
+# log sheet header
+log_header = ["ROW", "COLUMN", "Original value", "New value", "Item name", "Datetime" ]
+log_width =  [6, 9, 20, 20, 15, 25]
+
+
+
+def xlwidth(ws, col:int, w:int):
+    """
+    ワークシートwsのcol の幅を設定する。
+    Args:
+        ws: worksheet
+        col: 対象とする column
+        w: 幅
+    return:
+        w: 幅
+    """
+    column_letter = openpyxl.utils.get_column_letter(col)
+    print(f"col:{col} => letter:{column_letter}")
+    ws.column_dimensions[column_letter].width = w # 単位：文字数
+    return w
+
+
+def xlcolor(ws, row:int, col:int, color="ACEBF0"):
+    """
+    ワークシートwsの(row, col) の色を設定する。
+    Args:
+        ws: worksheet
+        row, col: 対象とする celll(row, col)
+        color: 設定する色
+    return:
+        color: 色
+    """
+    fill_color1 = styles.PatternFill(fgColor=color, fill_type="solid") 
+    cell = ws.cell(row=row, column=col)
+    cell.fill = fill_color1
+    return color
 
 def trans2(ws, row, d:dict, ws_log, deb=0):
     # d = {"name": value} => col, val
@@ -53,6 +89,7 @@ def trans(ws, row, col, val, ws_log, disp="null"):
         log: ws_logに書き込んだ値。
     """
     cell = ws.cell(row=row, column=col)
+    print(f"trans: #56 cell = {cell}")
     old_v = cell.value
     cell.value = val
     
@@ -458,7 +495,19 @@ if __name__ == "__main1__":
         print(f'{i}, {title[i]:10}: {rows[i]}')
         
     #print("rows=", rows)    
+
+def logHeaderSet(ws_log):
+    # --- color and width
+    ws_log.append(log_header)
     
+    for col in range(1, ws_log.max_column+1):
+        xlwidth(ws_log, col, log_width[col-1])
+        xlcolor(ws_log, 1, col, )
+    # ---
+
+
+
+
 if __name__ == "__main__":
     print("このスクリプトは直接実行されました\n")
     fn = 'JRODe_SRC_Sample.xlsx'
@@ -477,6 +526,19 @@ if __name__ == "__main__":
         print(f"#336 fount: {col[:10]}, {n}")
     else:
         print("not found.")
-        
-    # ---
-    print("Normal end.")
+
+    # ws create
+    ws2 = wb.copy_worksheet(ws)
+    ws_log = wb.create_sheet(title="ws_log")
+    # --- color and width
+    logHeaderSet(ws_log)
+    
+    # --- trans
+    trans(ws2, 3, 14, "test-dat", ws_log, "test")
+    
+    # --- save
+    fn_color = "mylib\\color_and_width.xlsx"
+    wb.save(fn_color)
+    
+    
+    print(f"Normal end. Saved to '{fn_color}'.")

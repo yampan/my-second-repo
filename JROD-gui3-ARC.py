@@ -60,8 +60,8 @@ ref: get_clipboard(), set_clipboard(), screenshot(),
 import TkEasyGUI as eg
 import json, os, sys, datetime
 import pytz
-from mylib.readWriteXL import (openXl, getRow, setRow, sort2,
-            search, JST, j_map, trans2, trans)
+from mylib.readWriteXL import (openXl, getRow, setRow, search, JST,
+                               j_map, trans2, logHeaderSet, log_header, log_width)
 from mylib.db_access import query, DBtrans, db_init
 from mylib.logger import (FMT, FMT2, createLogger, 
             clearLogfile, log_init, get_file_info)
@@ -141,8 +141,9 @@ wb, ws, title = openXl(FN_EXCEL, SHEET_NAME)
 ws2 = wb.copy_worksheet(ws)
 ws2.title = "copied-ws"
 ws3 = wb.create_sheet(title = 'trans-log')
-ws3.append(["ROW", "COLUMN", "Original value", "new value", "item name", "datetime" ])
-logger.debug(f"ws2: copied-ws,  ws3: trans-log were created.")
+logHeaderSet(ws3)
+#ws3.append(["ROW", "COLUMN", "Original value", "new value", "item name", "datetime" ])
+logger.debug(f"ws2: 'copied-ws',  ws3: 'trans-log' were created.")
 
 # title: dict ==> title2: list
 title2 = ['index']
@@ -167,14 +168,14 @@ def setByMap(j_map, ws, PTR, window, deb=0):
         cmd = f"{v} = col[{ptr}]"
         if deb: print(f"setByMap:  {v}: ptr:{ptr}, nam:{nam},  cmd= '{cmd}'")
         exec(cmd,locals(),globals())
-    logger.debug(f"setByMap: #121 id={id}, comp={comp}, status={status}," )
+    logger.debug(f"id={id}, comp={comp}, status={status}," )
     
     # dayCheckM()
     NG, mes, (low, period, high) = dayCheckM(col, PTR, title2, sys.stdout)
     comp_pre = pred(col, low, period, high, '85:放射線治療完遂度')
     # DB read
     final_d2, status2 = DBread(kannri_id)
-    logger.debug(f"#setByMap: final_d2={final_d2}, status2={status2}")
+    logger.debug(f"final_d2={final_d2}, status2={status2}")
     
     # redraw
     window["-id-"].update(f"ID: {id:10}, ")
