@@ -60,7 +60,7 @@ ref: get_clipboard(), set_clipboard(), screenshot(),
 import TkEasyGUI as eg
 import json, os, sys, datetime
 import pytz
-from mylib.readWriteXL import (openXl, getRow, setRow, search, JST,
+from mylib.readWriteXL import (openXl, getRow, setRow, search, JST, createLogWs,
                                j_map, trans2, logHeaderSet, log_header, log_width)
 from mylib.db_access import query, DBtrans, db_init
 from mylib.logger import (FMT, FMT2, createLogger, 
@@ -136,14 +136,19 @@ stats = ['1.非担癌生存','2.担癌生存','3.担癌不詳生存','4.原病�
 status_ARC = {'13111':'1.非担癌生存','13114':'4.原病死', '13113':'3.担癌不詳生存', 
               '13112':'2.担癌生存','13115':'5.他病死','13116':'6.不明死', '13117':'7.消息不明' }
 
+
 # excel open  wb:workbook, ws:worksheet, title:dict {}
+logger.debug(f"fn = {FN_EXCEL}, sheet = {SHEET_NAME}")
 wb, ws, title = openXl(FN_EXCEL, SHEET_NAME)
+ws2, ws3 = createLogWs(wb, ws)
+'''
 ws2 = wb.copy_worksheet(ws)
-ws2.title = "copied-ws"
-ws3 = wb.create_sheet(title = 'trans-log')
+ws2.title = "ws_copy"
+ws3 = wb.create_sheet(title = 'ws_log')
 logHeaderSet(ws3)
-#ws3.append(["ROW", "COLUMN", "Original value", "new value", "item name", "datetime" ])
-logger.debug(f"ws2: 'copied-ws',  ws3: 'trans-log' were created.")
+'''
+logger.debug(f"sheet names = {wb.sheetnames}")
+logger.debug(f"ws2: 'copied-ws',  ws3: 'trans-log' were opened.")
 
 # title: dict ==> title2: list
 title2 = ['index']

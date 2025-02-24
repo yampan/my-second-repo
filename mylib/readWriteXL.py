@@ -34,7 +34,7 @@ def xlwidth(ws, col:int, w:int):
         w: 幅
     """
     column_letter = openpyxl.utils.get_column_letter(col)
-    print(f"col:{col} => letter:{column_letter}")
+    #print(f"col:{col} => letter:{column_letter}")
     ws.column_dimensions[column_letter].width = w # 単位：文字数
     return w
 
@@ -506,35 +506,96 @@ def logHeaderSet(ws_log):
     # ---
 
 
+def createLogWs(wb, ws):
+    """
+    wbに "copy" sheetや "ws_log"を作成。
+    既に、あれば、それぞれに、ws2, ws3を紐付ける
 
+    Args:
+        wb: 既に開いてある、ワークブックプロジェクト
+        ws: worksheet
+    return:
+        w2, w3: 紐付けられた、ワークシートオブジェクト
+    """
+    # sheet名をチェック。
+    sheet_names = [ws.title for ws in wb.worksheets]
+    ws_title_list = sorted([ws.title for ws in wb.worksheets])
+    ws_length = len(ws_title_list) - 1
+    print(f"line() sheet_names = {sheet_names},\nwb.sheetnames = {wb.sheetnames}\n ws_length={ws_length}")
+    # ws2
+    ws2_sheet = None
+    for s in wb.sheetnames:
+        if "_copy" in s:
+            print("found: sheet name=", s)
+            ws2_sheet = s
+            break
+    if ws2_sheet is not None:
+        print(f"{line()} ws2('{ws2_sheet}') sheet opened.")
+        ws2 = wb[ws2_sheet]
+    else:
+        print(f"{line()} 'ws_copy' created.")
+        #ws2 = wb.create_sheet("ws_copy")
+        ws2 = wb.copy_worksheet(ws)
+    # ws3
+    if "ws_log" in sheet_names:
+        print(f"{line()} 'ws_log' opened.")
+        ws3 = wb["ws_log"] # シートの取得
+    else:
+        print(f"{line()} 'ws_log' created.")
+        ws3 = wb.create_sheet(title="ws_log") # 追加するシート名    
+        logHeaderSet(ws3)
+    return ws2, ws3
+
+
+import inspect
+import os
+
+def location():
+    frame = inspect.currentframe().f_back
+    return os.path.basename(frame.f_code.co_filename), frame.f_code.co_name, frame.f_lineno
+
+def line():
+    frame = inspect.currentframe().f_back
+    return f"{frame.f_code.co_name}: #{frame.f_lineno:3}:"
 
 if __name__ == "__main__":
     print("このスクリプトは直接実行されました\n")
+    
+    print(location())
+    
     fn = 'JRODe_SRC_Sample.xlsx'
+    fn = "JRODe_test.xlsx"
+    fn = "JRODe_ARC_Sample.xlsx"
+    
+    # book open and info
     print(f'excel filename: {fn}')
-    wb, ws, title = openXl(fn)
-    print(f"#332 title = {title}")
-    print(f"#333 {fn} was opend.\n  dimensions= {ws.dimensions}")
+    wb, ws, title = openXl(fn, "Sheet1")
+    #print(f"{line()} title = {title}")
+    print(f"{line()} {fn} was opend.\n  dimensions= {ws.dimensions}")
     ts = list(title.items())
-    print(f"#335 title = {ts[:10]} ...")
+    #print(f"{line()} ts= {ts}")
+    print(f"#551 title = {ts[:10]} ...")
+    
+    ws2, ws3 = createLogWs(wb, ws)
     
     # search
-    col, n = search(ws, 1, "2023-0617", 2)
-    print(f"#336 fount: {col[:10]}, {n}")
-    col, n = search(ws, 1, "2023-0617", n+1)
-    if col is not None:
-        print(f"#336 fount: {col[:10]}, {n}")
-    else:
-        print("not found.")
-
+    if 0:
+        col, n = search(ws, 1, "2023-0617", 2)
+        if col is not None:
+            print(f"#558 found: {col[:10]}, {n}")
+        else:
+            print(line()," not found.")
+    '''
     # ws create
     ws2 = wb.copy_worksheet(ws)
     ws_log = wb.create_sheet(title="ws_log")
     # --- color and width
     logHeaderSet(ws_log)
-    
+    '''
     # --- trans
-    trans(ws2, 3, 14, "test-dat", ws_log, "test")
+    if 0:
+        trans(ws2, 3, 14, "test-dat", ws_log, "test")
+    
     
     # --- save
     fn_color = "mylib\\color_and_width.xlsx"
