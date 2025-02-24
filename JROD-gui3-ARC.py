@@ -14,7 +14,7 @@ TkEasyGUI
 ref: https://github.com/kujirahand/tkeasygui-python
      
 
-Pro4： TkEasyGUI-test を pip install したが、import でエラーとなる。
+Pro4:  TkEasyGUI-test を pip install したが、import でエラーとなる。
        Python3.12 を再インストールする。
 acubic-PE:
        D:/python_test/TkEasyGUI/my-first-repo
@@ -61,7 +61,7 @@ import TkEasyGUI as eg
 import json, os, sys, datetime
 import pytz
 from mylib.readWriteXL import (openXl, getRow, setRow, search, JST, createLogWs,
-                               j_map, trans2, logHeaderSet, log_header, log_width)
+                               j_map, trans2, logHeaderSet, JSTfn )
 from mylib.db_access import query, DBtrans, db_init
 from mylib.logger import (FMT, FMT2, createLogger, 
             clearLogfile, log_init, get_file_info)
@@ -364,8 +364,9 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
               json.dump(f_dic, f, indent=2, ensure_ascii=False)
             logger.debug("#save to 'JRODe_test.xlsx'")
             returnByMap(j_map, ws, PTR)
-            wb.save('JRODe_test.xlsx')
-            window["-body-"].print("saved to ('fontlist.json', 'JRODe_test.xlsx')",
+            fn_excel = f"JRODe_{JSTfn()}.xlsx"
+            wb.save(fn_excel)
+            window["-body-"].print(f"saved to ('fontlist.json', '{fn_excel}')",
                                    text_color="purple")
         if event == "-statlist-":
             statlist: eg.Listbox = window["-statlist-"]

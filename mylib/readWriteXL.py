@@ -106,6 +106,15 @@ def JST():
     #now = now.strftime('%Y-%m-%d %H:%M:%S %Z%z') # 表示形式をカスタマイズ
     return now.strftime('%Y-%m-%d %H:%M:%S (%Z)') # 表示形式をカスタマイズ    
     
+def JSTfn():
+    """
+    JST-string suitable for filename 
+    """
+    jst = pytz.timezone('Asia/Tokyo')
+    now = datetime.datetime.now(jst) # 現在の時刻をJSTで取得
+    
+    return now.strftime('%m-%d_%H%M') # 表示形式をカスタマイズ    
+    
 
 def copy_worksheet_with_styles(input_file="mylib\\aaa.xlsx", 
                                output_file="mylib\\bbb.xlsx"):
