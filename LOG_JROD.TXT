@@ -1,30 +1,20 @@
-2025-02-26 18:25:09.001 [DEBUG  ] log|log_init:99   debug message
-2025-02-26 18:25:09.001 [INFO   ] log|log_init:100  info message
-2025-02-26 18:25:09.001 [WARNING] log|log_init:101  warn message
-2025-02-26 18:25:09.002 [ERROR  ] log|log_init:102  error message
-2025-02-26 18:25:09.002 [CRITICAL] log|log_init:103  critical message
-2025-02-26 18:25:09.004 [DEBUG  ] log|<module>:82   === Start: JROD-gui3-ARC.py ===
-2025-02-26 18:25:09.004 [DEBUG  ] log|<module>:83   スクリプトのパス: d:\python_test\TkEasyGUI\my-second-repo\JROD-gui3-ARC.py
-2025-02-26 18:25:09.004 [DEBUG  ] log|<module>:84   スクリプト名: JROD-gui3-ARC.py
-2025-02-26 18:25:09.005 [DEBUG  ] log|<module>:86   db_init() = {db_init()}
-2025-02-26 18:25:09.005 [DEBUG  ] log|<module>:90   DB_CONNECT: False, skip DB.
-2025-02-26 18:25:09.006 [DEBUG  ] log|<module>:138  fn = JRODe_ARC_Sample.xlsx, sheet = Sheet1
-2025-02-26 18:25:09.042 [DEBUG  ] log|<module>:147  sheet names = ['Sheet1', 'Sheet1 Copy', 'ws_log']
-2025-02-26 18:25:09.043 [DEBUG  ] log|<module>:148  ws2: 'copied-ws',  ws3: 'trans-log' were opened.
-2025-02-26 18:25:09.405 [DEBUG  ] log|<module>:348  get_center_location= (110, 110)
-2025-02-26 18:25:09.405 [DEBUG  ] log|<module>:349  get_screen_size= (1920, 1080)
-2025-02-26 18:25:09.405 [DEBUG  ] log|<module>:351  set_alpha_channel= 0.98
-2025-02-26 18:25:09.405 [DEBUG  ] log|<module>:354  set_size= (700, 850)
-2025-02-26 18:25:09.405 [DEBUG  ] log|<module>:356  get_size= (200, 200)
-2025-02-26 18:25:09.406 [DEBUG  ] log|setByMap:173  id=0000041750, comp=予定治療完遂, status=非担癌生存,
-2025-02-26 18:25:09.407 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死
-2025-02-26 18:25:32.584 [DEBUG  ] log|<module>:433  search: (ws, 1, 管理番号, 2)
-2025-02-26 18:25:32.586 [DEBUG  ] log|<module>:440  search: NOT FOUND, sPTR=None
-2025-02-26 18:25:35.079 [DEBUG  ] log|setByMap:173  id=0000061050, comp=予定治療完遂, status=原病死,
-2025-02-26 18:25:35.080 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死
-2025-02-26 18:25:37.945 [DEBUG  ] log|setByMap:173  id=0000067946, comp=予定治療完遂, status=担癌生存,
-2025-02-26 18:25:37.946 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死
-2025-02-26 18:25:38.697 [DEBUG  ] log|setByMap:173  id=0000067946, comp=予定治療完遂, status=担癌生存,
-2025-02-26 18:25:38.698 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死
-2025-02-26 18:25:39.037 [DEBUG  ] log|setByMap:173  id=0000078980, comp=予定治療完遂, status=,
-2025-02-26 18:25:39.038 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死
+2025-02-26 21:09:50.474 [DEBUG  ] log|log_init:99   debug message
+2025-02-26 21:09:50.474 [INFO   ] log|log_init:100  info message
+2025-02-26 21:09:50.474 [WARNING] log|log_init:101  warn message
+2025-02-26 21:09:50.475 [ERROR  ] log|log_init:102  error message
+2025-02-26 21:09:50.475 [CRITICAL] log|log_init:103  critical message
+2025-02-26 21:09:50.478 [DEBUG  ] log|<module>:82   === Start: JROD-gui3-ARC.py ===
+2025-02-26 21:09:50.478 [DEBUG  ] log|<module>:83   スクリプトのパス: d:\python_test\TkEasyGUI\my-second-repo\TNM-branch\JROD-gui3-ARC.py
+2025-02-26 21:09:50.478 [DEBUG  ] log|<module>:84   スクリプト名: JROD-gui3-ARC.py
+2025-02-26 21:09:50.478 [DEBUG  ] log|<module>:86   db_init() = {db_init()}
+2025-02-26 21:09:50.478 [DEBUG  ] log|<module>:90   DB_CONNECT: False, skip DB.
+2025-02-26 21:09:50.479 [DEBUG  ] log|<module>:138  fn = JRODe_ARC_Sample.xlsx, sheet = Sheet1
+2025-02-26 21:09:50.515 [DEBUG  ] log|<module>:147  sheet names = ['Sheet1', 'Sheet1 Copy', 'ws_log']
+2025-02-26 21:09:50.515 [DEBUG  ] log|<module>:148  ws2: 'copied-ws',  ws3: 'trans-log' were opened.
+2025-02-26 21:09:50.879 [DEBUG  ] log|<module>:349  get_center_location= (110, 110)
+2025-02-26 21:09:50.879 [DEBUG  ] log|<module>:350  get_screen_size= (1920, 1080)
+2025-02-26 21:09:50.879 [DEBUG  ] log|<module>:352  set_alpha_channel= 0.98
+2025-02-26 21:09:50.879 [DEBUG  ] log|<module>:355  set_size= (700, 850)
+2025-02-26 21:09:50.879 [DEBUG  ] log|<module>:357  get_size= (200, 200)
+2025-02-26 21:09:50.880 [DEBUG  ] log|setByMap:173  id=0000041750, comp=予定治療完遂, status=非担癌生存,
+2025-02-26 21:09:50.881 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死

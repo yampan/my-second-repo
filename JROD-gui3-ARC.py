@@ -304,7 +304,8 @@ lay_status = [
      eg.Text(f"  生死の状況: {status:6} ==> ", background_color="lightyellow", key="-status0-"),
      eg.Input(f'{status}', width=12, key="-status-"), eg.Button("fix2"), ],
     [eg.Text(f' DB: 　{final_d2}     生死の状況：{status2}', font=("BIZ UDPゴシック", 12, "bold"),
-             color='blue', key="-final_d2-")],
+             color='blue', key="-final_d2-"), eg.Text("    ", expand_x=True),
+     eg.Checkbox("DBconnect ", key="-DBconnect-", enable_events=True),],
     ]
 
 layout = [
@@ -428,6 +429,9 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
         if event == "HELP":
             win = help_window(script_name)
             win.close()
+        if event == "-DBconnect-":
+            DB_CONNECT = values["-DBconnect-"]
+            window["-body-"].print(f'DB_CONNECT = {DB_CONNECT}')
         if event == "search":
             val = values["-kanri_no-"]
             logger.debug(f"search: (ws, 1, {val}, 2)")
