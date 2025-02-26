@@ -293,7 +293,9 @@ lay_status = [
      eg.Text(f"  生死の状況: {status:6} ==> ", background_color="lightyellow", key="-status0-"),
      eg.Input(f'{status}', width=12, key="-status-"), eg.Button("fix2"), ],
     [eg.Text(f' DB: 　{final_d2}     生死の状況：{status2}', font=("BIZ UDPゴシック", 12, "bold"),
-             color='blue', key="-final_d2-")],
+             color='blue', key="-final_d2-"),eg.Text("   ", expand_x=True),
+     eg.Checkbox("DBconnect", key="-DBconnect-", enable_events=False),
+     ],
     ]
 
 layout = [
