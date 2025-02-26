@@ -184,7 +184,12 @@ def setByMap(j_map, ws, PTR, window, deb=0):
     window["-id2-"].update(f" kanri: {kannri_id:10}, name: {name:15}")
     window["-dis-"].update(f"{disease:15},({dis_icdo:5}) / {pathology},({path_icdo})")
     window["-date-"].update(f"開始日:{st_date}, 終了日:{en_date}  Dose:{dose}, Frac:{frac}, days:{days},")
-    window["-comp-"].update(f"{low:8} < {days:3} < {high:8.1f},     元の完遂度: {comp}")
+    if int(days) < low or int(days) > high:
+        color = "red"
+    else:
+        color = "black"
+    window["-comp-"].update(f"{low:8} < {days:3} < {high:8.1f},     元の完遂度: {comp}",
+                            color=color)
     window["-comp2-"].update(f"完遂予測：{comp_pre} ----->  ")
     window["-ptr-"].update(f"{PTR}")
     window["-final_d-"].update(f"{final_d}")
@@ -192,6 +197,7 @@ def setByMap(j_map, ws, PTR, window, deb=0):
     window["-status-"].update(f'{status}')
     window["-info-"].update(f"  {JST()}")
     window["-final_d2-"].update(f' DB: 　{final_d2}     生死の状況：{status2}')
+    window["-s_error-"].update("")
     return
 
 
@@ -309,8 +315,8 @@ layout = [
      eg.Text(f" kanri: {kannri_id:10}, name: {name:15}", key="-id2-"), ],
     [eg.Text(f"{disease:15},({dis_icdo:5}) / {pathology},({path_icdo})", key="-dis-")],
     [eg.Input("管理番号", width=10, key="-kanri_no-"),
-     eg.Button("search"),
-     eg.Text("---------------------------------------- ID ==> ", ), 
+     eg.Button("search"), eg.Text("", width=10, key="-s_error-", color="red"),
+     eg.Text("---------------------- ID ==> ", ), 
      eg.Button("paste", font=("Arial",13,'bold'), color="purple",),],
     [eg.Text(f"開始日:{st_date}, 終了日:{en_date}  Dose:{dose}, Frac:{frac}, days:{days},", key="-date-")],
     [eg.Text(f"{low:8} < {days} < {high:8.2f},     元の完遂度: {comp}", key="-comp-")],
@@ -432,6 +438,7 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
                 setByMap(j_map, ws, PTR, window)
             else:
                 logger.debug(f"search: NOT FOUND, sPTR={sPTR}")
+                window['-s_error-'].update("Not found.")
             window["-body-"].print(f"search: {val}, sPTR={sPTR}", text_color="purple")
         # LOG
         text = f"#event:{event}, PTR:{PTR}, comp:{comp}, final_d:{final_d}, status:{status}"
