@@ -412,8 +412,8 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
             if event == 'fix2':
                 DBwrite(kannri_id, final_d, status)
                 window["-body-"].print(event, end=", ", text_color="purple")
-                logger.debug(f"trans2 = {trans2(ws2, PTR, {"final_d":final_d}, ws3)}")
-                logger.debug(f"trans2 = {trans2(ws2, PTR, {"status":status}, ws3)}")
+                logger.debug(f"trans2 = {trans2(ws2, PTR, {'final_d':final_d}, ws3)}")
+                logger.debug(f"trans2 = {trans2(ws2, PTR, {'status':status}, ws3)}")
         if event in ["-ptr-", "< prev", "next >", "set"]:
             if event == "< prev" and PTR >2: PTR -= 1
             if event == "next >" and PTR < ws.max_row: PTR += 1
