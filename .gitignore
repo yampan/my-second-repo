@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# myProject
+LOG_JROD.txt
+
 # Distribution / packaging
 .Python
 build/
