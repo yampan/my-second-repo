@@ -72,15 +72,8 @@ from mylib.daycheck import dayCheckM, pred
 # logger start
 os.makedirs("./log", exist_ok=True)
 LOG_FN = "LOG_JROD.TXT"
-'''
-clearLogfile(LOG_FN)
-logger = createLogger("log", LOG_FN, format=FMT)
-logger.debug('debug message')
-logger.info('info message')
-logger.warning('warn message')
-logger.error('error message')
-logger.critical('critical message')
-'''
+DB_CONNECT = False
+
 logger = log_init(LOG_FN)
 get_file_info(".", "LOG*", show=1)
 
@@ -90,8 +83,12 @@ logger.debug(f"=== Start: {script_name} ===")
 logger.debug(f"スクリプトのパス: {script_path}")
 logger.debug(f"スクリプト名: {script_name}")
 
-logger.debug(f"connect = {db_init()}")
-
+logger.debug("db_init() = {db_init()}")
+if DB_CONNECT:
+    pass
+else:
+    logger.debug(f'DB_CONNECT: {DB_CONNECT}, skip DB.')
+    
 fn_conf = "JROD_config.json"
 with open(fn_conf, "r") as f:
     f_dic = json.load(f)
@@ -224,21 +221,28 @@ def DBread(id):
     DB から SQLを実行し、final_d2, status2 をセットする。
     Args:
         id: 管理番号
-
     Returns:
         (final_d2, status2) タプルで返す
     """
-    sql = '''select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
-            from admin where pat_id1 = ''' + f"'{id}' ;" 
-    logger.debug(f'sql = {sql}')
-    #rows = query(sql)
-    rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
-    logger.debug(f'rows = {rows}')
+    if DB_CONNECT:
+        sql = '''select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
+                from admin where pat_id1 = ''' + f"'{id}' ;" 
+        logger.debug(f'sql = {sql}')
+        rows = query(sql)
+        logger.debug(f'rows = {rows}')
+    
+        # None の処理
+        if rows[0][1] is None or rows[0][2] is None:
+            rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
+    else:
+        rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
+    
+    # value set
     final_d2 = rows[0][1]
     if type(final_d2) is not str:
         final_d2 = f'{final_d2}'[:10]
     status2 = status_ARC[f'{rows[0][2]}']
-    
+        
     return (final_d2, status2)
 
 
@@ -267,7 +271,8 @@ def DBwrite(id, dt, st):
                 where pat_id1 = ? ;'''
     #print(f'#DBwrite: sql: {sql},\n  values: {values}')
     logger.debug(f'#DBwrite: sql: {sql},\n  values: {values}')
-    #DBtrans(sql, values)
+    if DB_CONNECT:
+        DBtrans(sql, values)
     return 
 
 

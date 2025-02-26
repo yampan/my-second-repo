@@ -14,30 +14,40 @@ SERVER = '172.31.12.11'
 DATABASE = 'MOSAIQ'
 USERNAME = 'MOSAIQUser'
 PASSWORD = 'mosaiq'
+TIMEOUT = 5 # 5 秒
 
 connectionString = None
 
 def db_init():
     global connectionString
-    
+    # 2025-02-26 timeout added.
     driver = "{SQL Server}"
     connectionString = f'DRIVER={driver};' +f'SERVER={SERVER};' +\
-                    f'DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD};Trusted_Connection=no'
+                    f'DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD};' +\
+                    f'Connect Timeout={TIMEOUT};Trusted_Connection=no'
     return connectionString
     #return
 
 
-# SQL 実行、結果を印字
+# SQL 実行、結果の行数を印字
 def query(sql):
     conn = pyodbc.connect(connectionString)
+    print("conn=", conn)
     cursor = conn.cursor()
 
-    cursor.execute(sql) # SQL実行
+    try:
+        cursor.execute(sql) # SQL実行
     
-    rows = cursor.fetchall()
-    print("len-rows=", len(rows))
-    cursor.close()
-    conn.close()
+        rows = cursor.fetchall()
+        print("len-rows=", len(rows))
+    except pyodbc.Error as e:
+        sqlstate = e.args[0]
+        print(f"データベース接続エラー: {sqlstate}")
+        print(e)
+        rows = []
+    finally:
+        cursor.close()
+        conn.close()
     return rows
 
 # transaction
@@ -106,6 +116,7 @@ def execSQL(sql, values):
 
 if __name__ == "__main__":
     db_init()
+    print("connectionString=", connectionString)
     SQL_QUERY = '''select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
     from admin where pat_id1 = '16119';'''
     rows = query(SQL_QUERY)
@@ -114,7 +125,8 @@ if __name__ == "__main__":
     # [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
     # 管理番号、最終生存確認日、病態
 
-
+    exit()
+    
     status = {'13111':'1.非担癌生存','13114':'4.原病死', '13113':'3.担癌不詳生存', '13112':'2.担癌生存','13115':'5.他病死',
           '13116':'6.不明死', '13117':'7.消息不明' }
     st=rows[0][2]

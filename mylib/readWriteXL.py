@@ -11,11 +11,12 @@ import sys
 
 # j_map: {'var_name' : (81:'Dose') }
 j_map = {"id":(112,'ID'), 'kannri_id':(1,'院内管理コード') , 'name':(114, '名前'), 
-         'sex':(2,'性別'),'disease':(10, '疾患名'),'dis_icdo':(13, '原発部位ICD-Oコード'),
-         'pathology':(14, '病理組織'), 'path_icdo':(15,'病理組織ICD-Oコード'),
-         'st_date':(43, '外部照射開始日'), 'en_date':(44, '外部照射終了日'), 'dose':(45,'外部照射総線量'),
-         'frac':(46,'外部照射日数'), 'days':(46,'外部照射日数'), 'perday':(47, '外部照射分割回数'),
-         'comp':(85,'放射線治療完遂度'), 'status':(87,'生死の状況'), 'final_d': (88,'最終確認日') }
+    'sex':(2,'性別'),'disease':(10, '疾患名'),'dis_icdo':(13, '原発部位ICD-Oコード'),
+    'pathology':(14, '病理組織'), 'path_icdo':(15,'病理組織ICD-Oコード'),
+    'st_date':(43, '外部照射開始日'), 'en_date':(44, '外部照射終了日'), 
+    'dose':(45,'外部照射総線量'),'days':(46,'外部照射日数'),'frac':(47,'外部照射分割回数'),
+    'perday':(48, '一日あたり照射回数'),'comp':(85,'放射線治療完遂度'),
+    'status':(87,'生死の状況'), 'final_d': (88,'最終確認日') }
 
 # log sheet header
 log_header = ["ROW", "COLUMN", "Original value", "New value", "Item name", "Datetime" ]

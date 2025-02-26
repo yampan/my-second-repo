@@ -1,38 +1,24 @@
-2025-02-24 16:24:30.076 [DEBUG  ] log|log_init:99   debug message
-2025-02-24 16:24:30.076 [INFO   ] log|log_init:100  info message
-2025-02-24 16:24:30.076 [WARNING] log|log_init:101  warn message
-2025-02-24 16:24:30.076 [ERROR  ] log|log_init:102  error message
-2025-02-24 16:24:30.076 [CRITICAL] log|log_init:103  critical message
-2025-02-24 16:24:30.095 [DEBUG  ] log|<module>:89   === Start: JROD-gui3-ARC.py ===
-2025-02-24 16:24:30.095 [DEBUG  ] log|<module>:90   スクリプトのパス: d:\WPy64-3.12\WPy64-31241\notebooks\my-second-repo2\my-second-repo\JROD-gui3-ARC.py
-2025-02-24 16:24:30.096 [DEBUG  ] log|<module>:91   スクリプト名: JROD-gui3-ARC.py
-2025-02-24 16:24:30.096 [DEBUG  ] log|<module>:93   connect = DRIVER={SQL Server};SERVER=172.31.12.11;DATABASE=MOSAIQ;UID=MOSAIQUser;PWD=mosaiq;Trusted_Connection=no
-2025-02-24 16:24:30.096 [DEBUG  ] log|<module>:141  fn = JRODe_ARC_Sample.xlsx, sheet = Sheet1
-2025-02-24 16:24:30.177 [DEBUG  ] log|<module>:150  sheet names = ['Sheet1', 'Sheet1 Copy', 'ws_log']
-2025-02-24 16:24:30.177 [DEBUG  ] log|<module>:151  ws2: 'copied-ws',  ws3: 'trans-log' were opened.
-2025-02-24 16:24:30.559 [DEBUG  ] log|<module>:337  get_center_location= (110, 110)
-2025-02-24 16:24:30.559 [DEBUG  ] log|<module>:338  get_screen_size= (1280, 720)
-2025-02-24 16:24:30.559 [DEBUG  ] log|<module>:340  set_alpha_channel= 0.98
-2025-02-24 16:24:30.559 [DEBUG  ] log|<module>:343  set_size= (700, 850)
-2025-02-24 16:24:30.559 [DEBUG  ] log|<module>:345  get_size= (200, 200)
-2025-02-24 16:24:30.559 [DEBUG  ] log|setByMap:176  id=0000041750, comp=予定治療完遂, status=非担癌生存,
-2025-02-24 16:24:30.559 [DEBUG  ] log|DBread:233  sql = select pat_id1,user_defined_dttm_1,user_defined_pro_id_3 
-            from admin where pat_id1 = '16532' ;
-2025-02-24 16:24:30.559 [DEBUG  ] log|DBread:236  rows = [(16119, datetime.datetime(2023, 4, 29, 0, 0), 13114)]
-2025-02-24 16:24:30.574 [DEBUG  ] log|setByMap:183  final_d2=2023-04-29, status2=4.原病死
-2025-02-24 16:24:37.211 [DEBUG  ] log|<module>:388  comp= 予定の50%未満で中止, status= 3.担癌不詳生存, final_d= 2024/12/18
-2025-02-24 16:24:37.211 [DEBUG  ] log|<module>:391  comp= 予定の50%未満で中止, status= 3.担癌不詳生存, final_d= 2024/12/18
-2025-02-24 16:24:37.211 [DEBUG  ] log|<module>:396  trans2 = [2, 85, '予定治療完遂', '予定の50%未満で中止', '放射線治療完遂度', '2025-02-24 16:24:37 (JST)']
-2025-02-24 16:24:37.211 [DEBUG  ] log|<module>:397  trans2 = [2, 87, '非担癌生存', '3.担癌不詳生存', '生死の状況', '2025-02-24 16:24:37 (JST)']
-2025-02-24 16:24:37.227 [DEBUG  ] log|returnByMap:216  returnByMap: #150 comp=予定の50%未満で中止, col[85]=予定の50%未満で中止, status=3.担癌不詳生存, col[87]=3.担癌不詳生存
-2025-02-24 16:24:39.004 [DEBUG  ] log|<module>:388  comp= 予定の50%未満で中止, status= 3.担癌不詳生存, final_d= 2024/12/18
-2025-02-24 16:24:39.004 [DEBUG  ] log|<module>:391  comp= 予定の50%未満で中止, status= 3.担癌不詳生存, final_d= 2024/12/18
-2025-02-24 16:24:39.014 [DEBUG  ] log|returnByMap:216  returnByMap: #150 comp=予定の50%未満で中止, col[85]=予定の50%未満で中止, status=3.担癌不詳生存, col[87]=3.担癌不詳生存
-2025-02-24 16:24:39.014 [DEBUG  ] log|DBwrite:269  #DBwrite: sql: update admin set user_defined_pro_id_3 = ? , 
-                user_defined_dttm_1 = ?  
-                where pat_id1 = ? ;,
-  values: (13113, '2024/12/18', '16532')
-2025-02-24 16:24:39.014 [DEBUG  ] log|<module>:403  trans2 = [2, 88, '2024/12/18', '2024/12/18', '最終確認日', '2025-02-24 16:24:39 (JST)']
-2025-02-24 16:24:39.020 [DEBUG  ] log|<module>:404  trans2 = [2, 87, '3.担癌不詳生存', '3.担癌不詳生存', '生死の状況', '2025-02-24 16:24:39 (JST)']
-2025-02-24 16:24:42.139 [DEBUG  ] log|<module>:365  #save to 'JRODe_test.xlsx'
-2025-02-24 16:24:42.155 [DEBUG  ] log|returnByMap:216  returnByMap: #150 comp=予定の50%未満で中止, col[85]=予定の50%未満で中止, status=3.担癌不詳生存, col[87]=3.担癌不詳生存
+2025-02-26 17:53:07.848 [DEBUG  ] log|log_init:99   debug message
+2025-02-26 17:53:07.848 [INFO   ] log|log_init:100  info message
+2025-02-26 17:53:07.848 [WARNING] log|log_init:101  warn message
+2025-02-26 17:53:07.848 [ERROR  ] log|log_init:102  error message
+2025-02-26 17:53:07.849 [CRITICAL] log|log_init:103  critical message
+2025-02-26 17:53:07.851 [DEBUG  ] log|<module>:82   === Start: JROD-gui3-ARC.py ===
+2025-02-26 17:53:07.851 [DEBUG  ] log|<module>:83   スクリプトのパス: d:\python_test\TkEasyGUI\my-second-repo\JROD-gui3-ARC.py
+2025-02-26 17:53:07.851 [DEBUG  ] log|<module>:84   スクリプト名: JROD-gui3-ARC.py
+2025-02-26 17:53:07.852 [DEBUG  ] log|<module>:86   db_init() = {db_init()}
+2025-02-26 17:53:07.852 [DEBUG  ] log|<module>:90   DB_CONNECT: False, skip DB.
+2025-02-26 17:53:07.853 [DEBUG  ] log|<module>:138  fn = JRODe_ARC_Sample.xlsx, sheet = Sheet1
+2025-02-26 17:53:07.889 [DEBUG  ] log|<module>:147  sheet names = ['Sheet1', 'Sheet1 Copy', 'ws_log']
+2025-02-26 17:53:07.890 [DEBUG  ] log|<module>:148  ws2: 'copied-ws',  ws3: 'trans-log' were opened.
+2025-02-26 17:53:08.344 [DEBUG  ] log|<module>:342  get_center_location= (110, 110)
+2025-02-26 17:53:08.344 [DEBUG  ] log|<module>:343  get_screen_size= (1920, 1080)
+2025-02-26 17:53:08.345 [DEBUG  ] log|<module>:345  set_alpha_channel= 0.98
+2025-02-26 17:53:08.345 [DEBUG  ] log|<module>:348  set_size= (700, 850)
+2025-02-26 17:53:08.345 [DEBUG  ] log|<module>:350  get_size= (200, 200)
+2025-02-26 17:53:08.345 [DEBUG  ] log|setByMap:173  id=0000041750, comp=予定治療完遂, status=非担癌生存,
+2025-02-26 17:53:08.346 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死
+2025-02-26 17:53:21.798 [DEBUG  ] log|setByMap:173  id=0000061050, comp=予定治療完遂, status=原病死,
+2025-02-26 17:53:21.799 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死
+2025-02-26 17:53:32.474 [DEBUG  ] log|setByMap:173  id=0000041750, comp=予定治療完遂, status=非担癌生存,
+2025-02-26 17:53:32.474 [DEBUG  ] log|setByMap:180  final_d2=2023-04-29, status2=4.原病死
