@@ -8,6 +8,7 @@ __pycache__/
 
 # myProject
 LOG_JROD.txt
+JRODe_*.xlsx
 
 # Distribution / packaging
 .Python

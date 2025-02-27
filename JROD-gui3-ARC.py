@@ -1,7 +1,7 @@
 ### JROD-gui3-ARC (Branch: search_ando_sort)
 ### MS VS-Code Himt
 # 1. ターミナルを開く　　ctrl + @, clear: cls,  Ctrl+Shift+P
-# 2.　GitHUB commitの方法
+# 2. GitHUB commitの方法
 # 3. module のSub-folder を mylib に変更。2025-02-21
 # 4. main へ subscribe する。
 # 5. Branch logfunc を追加する。
@@ -38,10 +38,12 @@ pi5a.local:/home/jupyter/work/GUI-test/my-first-repo/fontlist.py
   
   4. git commit -m "1st commit"
     変更内容が索引からコミットされ、HEADに格納されました。
+
   5. 共有リポジトリにプッシュする
     git push origin master
   
-  6. ローカルでリポジトリを作成( git init )や共有リポジトリからクローン(clone)していない場合、共有リポジトリを登録することができます。
+  6. ローカルでリポジトリを作成( git init )や共有リポジトリから
+     クローン(clone)していない場合、共有リポジトリを登録することができます。
     git remote add origin <server>
   
   7. 作業ディレクトリを最新のコミットに更新
