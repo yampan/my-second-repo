@@ -299,7 +299,8 @@ lay_info=[[eg.Text(f"sel_font: {sel_font},  Size:{f_size},", font=("Arial",12,"b
           [eg.Text(f"file: {FN_EXCEL}, sheet: {SHEET_NAME},  max_row:{title['max_row']}"+ \
                    f",   max_col:{title['max_column']}", font=("Arial",12,'bold'),
                    background_color="lightyellow",), 
-           eg.Text(" ", expand_x=True, background_color="lightyellow",),eg.Button("HELP"), ],
+           eg.Text(" ", expand_x=True, background_color="lightyellow",),
+           eg.Button("HELP", font=("Arial", 10, 'bold')), ],
          ]
 lay_status = [
     [eg.Input(f"{final_d}", width=12, background_color="lightyellow", key="-final_d-"),
@@ -314,7 +315,7 @@ lay_status = [
      eg.Checkbox("DBconnect ", key="-DBconnect-", enable_events=True),],
     ]
 lay_tnm = [
-    [eg.Text("cpr"), eg.Input("c", width=2, key="-cpr-"),
+    [eg.Text(" cpr"), eg.Input("c", width=2, key="-cpr-"),
      eg.Text(" T"), eg.Input("T1", width=2, key="-T1-"),
      eg.Text(" N"), eg.Input("N1", width=2, key="-N1-"),
      eg.Text(" M"), eg.Input("M1", width=2, key="-M1-"),
