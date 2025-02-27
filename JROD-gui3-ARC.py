@@ -303,13 +303,26 @@ lay_info=[[eg.Text(f"sel_font: {sel_font},  Size:{f_size},", font=("Arial",12,"b
          ]
 lay_status = [
     [eg.Input(f"{final_d}", width=12, background_color="lightyellow", key="-final_d-"),
-     eg.Text(f"  生死の状況: {status:6} ==> ", background_color="lightyellow", key="-status0-"),
-     eg.Input(f'{status}', width=12, key="-status-"), eg.Button("fix2"), ],
-    [eg.Text(f' DB: 　{final_d2}     生死の状況：{status2}', font=("BIZ UDPゴシック", 12, "bold"),
+     eg.Text(f"  生死の状況: {status:6} ==> ", 
+             background_color="lightyellow", key="-status0-"),
+     eg.Input(f'{status}', width=12, key="-status-"), 
+     eg.Button("fix2", font=("Arial",13,'bold'), color="purple",
+               background_color="lightyellow"), ],
+    [eg.Text(f' DB: 　{final_d2}     生死の状況：{status2}', 
+             font=("BIZ UDPゴシック", 12, "bold"),
              color='blue', key="-final_d2-"), eg.Text("    ", expand_x=True),
      eg.Checkbox("DBconnect ", key="-DBconnect-", enable_events=True),],
     ]
-
+lay_tnm = [
+    [eg.Text("cpr"), eg.Input("c", width=2, key="-cpr-"),
+     eg.Text(" T"), eg.Input("T1", width=2, key="-T1-"),
+     eg.Text(" N"), eg.Input("N1", width=2, key="-N1-"),
+     eg.Text(" M"), eg.Input("M1", width=2, key="-M1-"),
+     eg.Text("  Stage"), eg.Input("1a", width=4, key="-S1-"),
+     eg.Text("     ", ), 
+     eg.Button("fix3",font=("Arial",13,'bold'), color="purple",
+               background_color="lightyellow"), ],    
+]
 layout = [
     [eg.Frame(f" JROD-GUI2 Project: {script_name}  TkEasyGUI ver: {eg.__version__} ", expand_x=True,
             layout=lay_info, font=("Arial",10,'bold'), background_color="lightyellow",color="blue") ],
@@ -324,10 +337,13 @@ layout = [
     [eg.Text(f"開始日:{st_date}, 終了日:{en_date}  Dose:{dose}, Frac:{frac}, days:{days},", key="-date-")],
     [eg.Text(f"{low:8} < {days} < {high:8.2f},     元の完遂度: {comp}", key="-comp-")],
     [eg.Text(f"      完遂予測:{comp_pre} ----->  ", key="-comp2-"), 
-     eg.Input("---", key="-font-", width=22,), eg.Button("fix"),],
+     eg.Input("---", key="-font-", width=22,), 
+     eg.Button("fix", font=("Arial",13,'bold'), color="purple",background_color="lightyellow"),],
     [eg.Listbox(values=comps, size=(22, 7), key="-complist-", enable_events=True, ),eg.Text("   ↑     "),
      eg.Listbox(values=stats, size=(10,7), key="-statlist-", enable_events=True, ), eg.Text("  ↓") ],
     [eg.Frame(" 最終確認日 ", font=("Arial", 12, 'bold'), expand_x=True, layout=lay_status, ),],
+    [eg.Frame("TNM Stage", layout=lay_tnm, font=("Arial", 12, 'bold'), color="green", 
+              expand_x=True)],
     #
     #[eg.Text("-----------------------------------------------------------", ),],
     [eg.Text("PTR: "), eg.Input(f"{PTR}", key="-ptr-", enable_events=False, width=5,),
@@ -338,7 +354,7 @@ layout = [
      eg.Button("Exit", color="#FF2222", font=("Arial",14,"bold")),
      eg.Text("     ", expand_x=True), 
      eg.Button("clear", font=("Arial",10,'bold'),color="brown",background_color="lightblue"), ],
-    [eg.Multiline(text="message:", size=(40, 13), key="-body-",
+    [eg.Multiline(text="message:", size=(40, 10), key="-body-",
             font=("Arial",11,'bold'), expand_y=True, expand_x=True)],
     [eg.Text(f' ', expand_x=True), eg.Text(f"JROD-gui2-ARC ver. 1.1", font=("Arial",11,'bold italic')) ]
 ]
@@ -353,7 +369,7 @@ with eg.Window(f"JROD-GUI: {script_name}", layout, font=(sel_font, f_size), fina
         aaa = 0.98
         logger.debug(f"set_alpha_channel= {aaa}")
         window.set_alpha_channel(aaa)
-        w_size = (700,850) # Width, Height
+        w_size = (700,900) # Width, Height
         logger.debug(f"set_size= {w_size}")
         window.set_size(w_size)
         logger.debug(f"get_size= {window.get_size()}")

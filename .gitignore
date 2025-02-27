@@ -6,7 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-# myProject LOG
+# myProject LOG and temp xlsx
 LOG_JROD.txt
 JRODe_*.xlsx
 
